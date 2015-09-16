@@ -1,0 +1,36 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+
+    <item android:id="@+id/action_Menu" android:title="Menu"
+        android:orderInCategory="100" app:showAsAction="never"
+        />
+
+    <item android:id="@+id/action_manualupload" android:title="@string/action_manualupload"
+        android:orderInCategory="100" app:showAsAction="never"
+        />
+
+    <item android:id="@+id/action_userprofile" android:title="Settings"
+        android:orderInCategory="100" app:showAsAction="never"
+        />
+
+    <item android:id="@+id/action_visitedplace" android:title="@string/action_visitedplace"
+        android:orderInCategory="100" app:showAsAction="never"
+        />
+
+    <item android:id="@+id/action_myreward" android:title="My Rewards"
+        android:orderInCategory="100" app:showAsAction="never"
+        />
+
+    <item android:id="@+id/action_feedback" android:title="@string/action_feedback"
+        android:orderInCategory="100" app:showAsAction="never"
+        />
+
+    <item android:id="@+id/action_aboutus" android:title="@string/action_aboutus"
+        android:orderInCategory="100" app:showAsAction="never"
+        />
+
+
+
+
+</menu>

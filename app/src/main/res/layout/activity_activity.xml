@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="5dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        >
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1"
+
+                android:layout_marginTop="5dp"
+                android:layout_weight="0.92">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Are you alone?"
+                        android:id="@+id/textView" />
+
+                </LinearLayout>
+
+                <RadioGroup
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/radioGroup1"
+                        android:onClick="clickRadio_group1"
+                        android:clickable="true">
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/radioButton1"
+                            android:onClick="clickimage_happyface" />
+
+                        <ImageView
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:src="@drawable/activityalone"
+                            android:id="@+id/imageView1"
+                            android:focusable="false"
+                            android:clickable="true"
+                            android:onClick="clickimage_happyface"
+
+                            />
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/radioButton2"
+                            android:onClick="clickimage_unhappyface" />
+
+                        <ImageView
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:src="@drawable/activitygroup"
+                            android:id="@+id/imageView2"
+                            android:focusable="false"
+                            android:clickable="true"
+                            android:onClick="clickimage_unhappyface"
+
+                            />
+
+                </RadioGroup>
+
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1"
+
+                android:layout_marginTop="5dp"
+                android:layout_weight="0.92">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="What are you doing in this place?"
+                        android:id="@+id/textView_activity" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp">
+
+                    <CheckBox
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:text=""
+                                android:id="@+id/checkBox"
+                                android:checked="false" />
+
+                    <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="80dp"
+                                android:layout_height="90dp">
+
+                                <ImageView
+                                    android:layout_width="71dp"
+                                    android:layout_height="62dp"
+                                    android:src="@drawable/activityplaying"
+                                    android:id="@+id/imageView1_activity"
+                                    android:focusable="false"
+                                    android:clickable="true"
+                                    android:onClick="clickimage_happyface"
+                                    android:paddingBottom="5dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Playing"
+                            android:id="@+id/textView2" />
+
+                    </LinearLayout>
+
+                    <CheckBox
+                            android:layout_width="30dp"
+                        android:layout_height="30dp"
+                                android:text=""
+                                android:id="@+id/checkBox2"
+                                android:checked="false" />
+
+                    <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="80dp"
+                                android:layout_height="90dp">
+
+                                <ImageView
+                                    android:layout_width="71dp"
+                                    android:layout_height="62dp"
+                                    android:src="@drawable/activitycycling"
+                                    android:id="@+id/imageView2_activity"
+                                    android:focusable="false"
+                                    android:clickable="true"
+                                    android:onClick="clickimage_unhappyface"
+
+                                    android:paddingBottom="5dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Cycling"
+                            android:id="@+id/textView11" />
+
+                    </LinearLayout>
+
+                    <CheckBox
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:text=""
+                                android:id="@+id/checkBox3"
+                                android:checked="false" />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="90dp">
+
+                        <LinearLayout
+                                    android:orientation="vertical"
+                            android:layout_width="120dp"
+                            android:layout_height="90dp">
+
+                                    <ImageView
+                                        android:layout_width="71dp"
+                                        android:layout_height="62dp"
+                                        android:src="@drawable/activityonlinesocializing"
+                                        android:id="@+id/imageView3_activity"
+                                        android:focusable="false"
+                                        android:clickable="true"
+                                        android:onClick="clickimage_surprisedface"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textAppearance="?android:attr/textAppearanceMedium"
+                                        android:text="Onlinesocializing"
+                                        android:id="@+id/textView12" />
+                                </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp">
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                                android:text=""
+                                android:id="@+id/checkBox4"
+                                android:checked="false" />
+
+                    <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="80dp"
+                                android:layout_height="90dp">
+
+                                <ImageView
+                                    android:layout_width="71dp"
+                                    android:layout_height="62dp"
+                                    android:src="@drawable/activityrunning"
+                                    android:id="@+id/imageViewfunnyface_activity"
+                                    android:focusable="false"
+                                    android:clickable="true"
+                                    android:onClick="clickimage_funnyface"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:text="Running"
+                                    android:id="@+id/textView13" />
+                            </LinearLayout>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:id="@+id/checkBox5" />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="80dp"
+                        android:layout_height="90dp">
+
+                        <ImageView
+                            android:layout_width="71dp"
+                            android:layout_height="62dp"
+                            android:src="@drawable/activitysitting"
+                            android:id="@+id/imageView3" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Sitting"
+                            android:id="@+id/textView14" />
+                    </LinearLayout>
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:id="@+id/checkBox_activity6" />
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="80dp"
+                        android:layout_height="90dp">
+
+                        <ImageView
+                            android:layout_width="71dp"
+                            android:layout_height="62dp"
+                            android:src="@drawable/activitystudying"
+                            android:id="@+id/imageView_activity6" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Studying"
+                            android:id="@+id/textView_activity6" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp">
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:id="@+id/checkBox_activity7"
+                        android:checked="false" />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="80dp"
+                        android:layout_height="90dp">
+
+                        <ImageView
+                            android:layout_width="71dp"
+                            android:layout_height="62dp"
+                            android:src="@drawable/activitytalking"
+                            android:id="@+id/imageView_activity7"
+                            android:focusable="false"
+                            android:clickable="true"
+                            android:onClick="clickimage_funnyface"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Talking"
+                            android:id="@+id/textView_activity7" />
+                    </LinearLayout>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:id="@+id/checkBox_activity8" />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="80dp"
+                        android:layout_height="90dp">
+
+                        <ImageView
+                            android:layout_width="71dp"
+                            android:layout_height="62dp"
+                            android:src="@drawable/activitywalking"
+                            android:id="@+id/imageView_activity8" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Walking"
+                            android:id="@+id/textView_activity8" />
+                    </LinearLayout>
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:id="@+id/checkBox_activity9" />
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="80dp"
+                        android:layout_height="90dp">
+
+                        <ImageView
+                            android:layout_width="71dp"
+                            android:layout_height="62dp"
+                            android:src="@drawable/activityworking"
+                            android:id="@+id/imageView_activity9" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Working"
+                            android:id="@+id/textView_activity9" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="10dp"
+                android:paddingLeft="10dp">
+
+                <CheckBox
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/checkBox6"
+                    android:checked="false" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Other:"
+                    android:id="@+id/textView15"
+                    android:paddingRight="5dp" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:ems="10"
+                    android:id="@+id/Edit_Activity_Others"
+                    android:lines="1"
+                    android:hint=""
+                    android:background="@drawable/editboxborader"
+                    android:imeActionLabel="Done"
+   />
+
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Done"
+                    android:id="@+id/button_editdone"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <Button
+                android:layout_width="278dp"
+                android:layout_height="wrap_content"
+                android:text="Submit"
+                android:id="@+id/button"
+                android:onClick="clickButton_submit"
+                android:layout_gravity="center"
+                android:paddingTop="10dp" />
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>
+
+
+

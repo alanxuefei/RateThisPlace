@@ -1,0 +1,92 @@
+<resources>
+    <string name="app_name">RateThisPlace</string>
+    <string name="app_color">#2E8DEF</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+
+    <!-- Activity detection strings -->
+    <string name="in_vehicle">In a vehicle</string>
+    <string name="on_bicycle">On a bicycle</string>
+    <string name="on_foot">On foot</string>
+    <string name="running">Running</string>
+    <string name="still">Still</string>
+    <string name="tilting">Tilting</string>
+    <string name="unknown">Unknown activity</string>
+    <string name="walking">Walking</string>
+    <string name="unidentifiable_activity">Unidentifiable activity: %1$d</string>
+
+    <string name="not_connected">GoogleApiClient not yet connected. Try again.</string>
+    <string name="title_activity_human_activity_diary">HumanActivityDiaryActivity</string>
+    <string name="user_agreement">Agreement</string>
+    <string name="agree">Agree</string>
+    <string name="disagree">Disagree</string>
+    <string name="title_activity_rate_this_place">RateThisPlaceActivity</string>
+    <string name="title_activity_my_mood">MyMood</string>
+
+    <string name="service_not_available">service_not_available</string>
+    <string name="invalid_lat_long_used">invalid_lat_long_used</string>
+    <string name="no_address_found">no_address_found</string>
+    <string name="address_found">address_found</string>
+
+    <string name="decimal_points">%.3f</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_main_activity2">MainActivity2Activity</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+    <string name="title_activity_rate_this_place2">RateThisPlace2Activity</string>
+    <string name="action_aboutus">About Us</string>
+    <string name="action_userprofile">Setting</string>
+    <string name="action_mapview">Map View</string>
+    <string name="action_home">Home</string>
+    <string name="title_activity_my_reward">MyReward</string>
+    <string name="youhaveearn">You have earned</string>
+    <string name="title_activity_test">test</string>
+
+
+
+    <string name="title_activity_show_geofence_transitions">ShowGeofenceTransitionsActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <!-- Buttons strings -->
+    <string name="add_geofences">Add geofences</string>
+    <string name="remove_geofences">Remove geofences</string>
+
+    <string name="geofences_added">Geofences added</string>
+    <string name="geofences_removed">Geofences removed</string>
+
+    <!-- Error strings -->
+
+    <string name="geofence_not_available">Geofence service is not available now</string>
+    <string name="geofence_too_many_geofences">Your app has registered too many geofences</string>
+    <string name="geofence_too_many_pending_intents">
+        You have provided too many PendingIntents to the addGeofences() call
+    </string>
+    <string name="unknown_geofence_error">
+        Unknown error: the Geofence service is not available now
+    </string>
+    <string name="geofence_transition_invalid_type">
+        Geofence transition error: invalid transition type %1$d
+    </string>
+
+    <!-- Transition type strings -->
+    <string name="geofence_transition_entered">Entered</string>
+    <string name="geofence_transition_exited">Exited</string>
+    <string name="unknown_geofence_transition">Unknown Transition</string>
+
+    <string name="geofence_transition_notification_text">Click notification to return to app</string>
+    <string name="action_manualupload">Upload</string>
+    <string name="action_feedback">Feedback</string>
+    <string name="action_Menu">Menu</string>
+    <string name="action_myreward">My Reward</string>
+    <string name="action_visitedplace">Visted Place</string>
+
+
+</resources>
