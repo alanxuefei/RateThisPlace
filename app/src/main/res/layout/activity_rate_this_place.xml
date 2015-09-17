@@ -24,13 +24,53 @@ android:layout_height="match_parent"
                 android:clickable="true"
                 android:onClick="ReturnButton">
 
-                <TextView
-                    android:layout_width="200dp"
+
+                <LinearLayout
+                    android:id="@+id/linearLayout_basic1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Rate This Place"
-                    android:textSize="20sp"
-                    android:background="#FFFFFF"
-                    android:textColor="#000000" />
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:text="You earn 10 points"
+                        android:textSize="20sp"
+                        android:background="#FFFFFF"
+                        android:textColor="#000000" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout_basic2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:id="@+id/imageView_rewards"
+                        android:src="@drawable/rewards_cup"
+                        android:cropToPadding="false"
+                        android:background="#FFFFFF"
+                        android:adjustViewBounds="false"
+                        android:layout_gravity="left"
+                        android:paddingRight="10dp" />
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:id="@+id/imageView_rewards2"
+                        android:src="@drawable/rewards_cup"
+                        android:cropToPadding="false"
+                        android:background="#FFFFFF"
+                        android:adjustViewBounds="false"
+                        android:layout_gravity="left"
+                        android:paddingRight="10dp" />
+
+                </LinearLayout>
+
+                </LinearLayout>
+
+
+
+
 
                 <ImageView
                     android:layout_width="40dp"
@@ -46,6 +86,22 @@ android:layout_height="match_parent"
 
 
             </android.support.v7.widget.Toolbar>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView6" />
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBar"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:progress="20"
+                android:indeterminate="false" />
 
             <TabWidget
                 android:id="@android:id/tabs"

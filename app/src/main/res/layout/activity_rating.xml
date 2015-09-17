@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="5dp"
+    android:paddingLeft="10dp"
     android:weightSum="1">
 
     <ScrollView
@@ -256,15 +256,14 @@
 
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:background="@drawable/editboxborader"
-            android:layout_marginRight="10dp">
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/editboxborader">
 
             <EditText
-                android:layout_width="150dp"
+                android:layout_width="179dp"
                 android:layout_height="60dp"
                 android:inputType="textMultiLine"
                 android:ems="10"
@@ -272,12 +271,10 @@
                 android:lines="3"
                 android:hint="Write a comment..."
                 android:imeOptions="actionDone"
-
                 android:layout_marginTop="15dp"
                 android:layout_toLeftOf="@+id/imageView5"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
-
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -300,16 +297,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="10dp"
                 android:onClick="dispatchTakePictureIntent" />
+        </LinearLayout>
 
-        </RelativeLayout>
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/progressBar"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="0.08" />
 
         <Button
             android:layout_width="278dp"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.alan.rate_this_place" >
+    package="com.i2r.alan.rate_this_place" >
 
     <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -43,7 +43,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.i2r.alan.rate_this_place.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             >
@@ -53,30 +53,24 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".pasivedatacollection.DetectedActivitiesIntentService" android:exported="false" />
-        <service android:name=".pasivedatacollection.PassiveDataToFTPIntentService" android:exported="false" />
+        <service android:name="com.i2r.alan.rate_this_place.pasivedatacollection.DetectedActivitiesIntentService" android:exported="false" />
+        <service android:name="com.i2r.alan.rate_this_place.pasivedatacollection.PassiveDataToFTPIntentService" android:exported="false" />
 
-        <receiver android:name=".pasivedatacollection.StartUpBootReceiver" >
+        <receiver android:name="com.i2r.alan.rate_this_place.pasivedatacollection.StartUpBootReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
                 <action android:name="android.intent.action.REBOOT" />
             </intent-filter>
         </receiver>
-        <service android:name=".pasivedatacollection.SensorListenerService" />
+        <service android:name="com.i2r.alan.rate_this_place.pasivedatacollection.SensorListenerService" />
 
         <service
-            android:name=".ratethisplace.RatingToServerIntentService"
-            android:enabled="true"
-            android:exported="true" >
-        </service>
-
-        <service
-            android:name=".ratethisplace.FetchAddressIntentService"
+            android:name="com.i2r.alan.rate_this_place.ratethisplace.FetchAddressIntentService"
             android:exported="false" >
         </service>
         <service
-            android:name=".ratethisplace.IntentServiceFTP"
+            android:name="com.i2r.alan.rate_this_place.ratethisplace.IntentServiceFTP"
             android:exported="false" >
         </service>
 
@@ -86,49 +80,49 @@
 
 
         <activity
-            android:name=".ratethisplace.RateThisPlaceActivity"
+            android:name="com.i2r.alan.rate_this_place.ratethisplace.RateThisPlaceActivity"
             android:label="@string/title_activity_rate_this_place"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".ratethisplace.RateThisPlaceRatingActivity"
+            android:name="com.i2r.alan.rate_this_place.ratethisplace.RateThisPlaceRatingActivity"
             android:label="@string/title_activity_rate_this_place" >
         </activity>
         <activity
-            android:name=".ratethisplace.RateThisPlaceActivityActivity"
+            android:name="com.i2r.alan.rate_this_place.ratethisplace.RateThisPlaceActivityActivity"
             android:label="@string/title_activity_rate_this_place" >
         </activity>
 
         <activity
-            android:name=".mapview.MapsActivity"
+            android:name="com.i2r.alan.rate_this_place.mapview.MapsActivity"
             android:label="@string/title_activity_maps"
             android:screenOrientation="portrait">
 
         </activity>
         <activity
-            android:name=".myrewards.MyRewardActivity"
+            android:name="com.i2r.alan.rate_this_place.myrewards.MyRewardActivity"
             android:label="@string/title_activity_my_reward"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".visitedplace.VisitedPlacesActivity"
+            android:name="com.i2r.alan.rate_this_place.visitedplace.VisitedPlacesActivity"
             android:label="VisitedPlacesActivity"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".usersetting.UserProfileActivity"
+            android:name="com.i2r.alan.rate_this_place.usersetting.UserProfileActivity"
             android:label="@string/title_activity_user_profile"
             android:screenOrientation="portrait">
         </activity>
 
         <service
-            android:name=".visitedplace.GeofenceTransitionsIntentService"
+            android:name="com.i2r.alan.rate_this_place.visitedplace.GeofenceTransitionsIntentService"
             android:enabled="true"
             android:exported="true"
             android:screenOrientation="portrait">
         </service>
         <service
-            android:name=".visitedplace.GeofencingService"
+            android:name="com.i2r.alan.rate_this_place.visitedplace.GeofencingService"
             android:enabled="true"
             android:exported="true" >
         </service>
