@@ -32,7 +32,7 @@ public final class Constants {
     private Constants() {
     }
 
-    public static final String PACKAGE_NAME = "com.example.alan.rate_this_place";
+    public static final String PACKAGE_NAME = "com.i2r.alan.rate_this_place";
 
     public static final String BROADCAST_ACTION = PACKAGE_NAME + ".BROADCAST_ACTION";
 

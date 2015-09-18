@@ -55,16 +55,6 @@
             android:id="@+id/textView_status"
             android:layout_gravity="left|top" />
 
-        <Button
-            android:layout_width="281dp"
-            android:layout_height="68dp"
-            android:text="Rate This Place"
-            android:id="@+id/button2"
-            android:layout_gravity="center_horizontal|bottom"
-            style="@style/AlertDialog.AppCompat.Light"
-            android:layout_marginBottom="10dp"
-            android:onClick="clickImage_rate_this_place" />
-
     </FrameLayout>
 
 

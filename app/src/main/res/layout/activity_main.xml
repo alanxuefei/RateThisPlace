@@ -18,18 +18,7 @@
             android:layout_height="wrap_content"
             android:clickable="true">
 
-            <LinearLayout
-                android:id="@+id/linearLayout_basic1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:text="You earn 10 points"
-                    android:textSize="20sp"
-                    android:background="#FFFFFF"
-                    android:textColor="#000000" />
+
 
                 <LinearLayout
                     android:id="@+id/linearLayout_basic2"
@@ -57,9 +46,14 @@
                         android:layout_gravity="left"
                         android:paddingRight="10dp" />
 
+                    <com.i2r.alan.rate_this_place.utility.CircleProgressBar
+                        android:id="@+id/circleProgressbar"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp" />
+
                 </LinearLayout>
 
-            </LinearLayout>
+
 
             <ImageView
                 android:layout_width="40dp"
@@ -78,14 +72,7 @@
         </android.support.v7.widget.Toolbar>
 
 
-        <ProgressBar
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/progressBar2"
-            android:layout_gravity="center_horizontal"
-            android:progress="15"
-            android:indeterminate="false" />
+
 
         <TextView
             android:layout_width="match_parent"
