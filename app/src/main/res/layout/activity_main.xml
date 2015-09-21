@@ -21,35 +21,10 @@
 
 
                 <LinearLayout
-                    android:id="@+id/linearLayout_basic2"
+                    android:id="@+id/linearLayout_rewardbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:id="@+id/imageView_rewards"
-                        android:src="@drawable/rewards_cup"
-                        android:cropToPadding="false"
-                        android:background="#FFFFFF"
-                        android:adjustViewBounds="false"
-                        android:layout_gravity="left"
-                        android:paddingRight="10dp" />
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:id="@+id/imageView_rewards2"
-                        android:src="@drawable/rewards_cup"
-                        android:cropToPadding="false"
-                        android:background="#FFFFFF"
-                        android:adjustViewBounds="false"
-                        android:layout_gravity="left"
-                        android:paddingRight="10dp" />
-
-                    <com.i2r.alan.rate_this_place.utility.CircleProgressBar
-                        android:id="@+id/circleProgressbar"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp" />
 
                 </LinearLayout>
 

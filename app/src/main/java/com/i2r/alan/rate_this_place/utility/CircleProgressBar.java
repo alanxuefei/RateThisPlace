@@ -22,12 +22,14 @@ public class CircleProgressBar extends View {
     //画圆所在的距形区域
     RectF oval;
     Paint paint;
-    public CircleProgressBar(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    public CircleProgressBar(Context context) {
+        super(context);
         // TODO 自动生成的构造函数存根
         oval = new RectF();
         paint = new Paint();
     }
+
+
 
     @Override
     protected void onDraw(Canvas canvas) {

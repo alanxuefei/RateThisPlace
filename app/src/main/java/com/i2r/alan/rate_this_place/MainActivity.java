@@ -18,12 +18,16 @@ import android.util.Patterns;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.i2r.alan.rate_this_place.feedback.FeedbackDialogFragment;
 import com.i2r.alan.rate_this_place.mapview.MapsActivity;
+import com.i2r.alan.rate_this_place.myrewards.AsyncTaskGetDataToMyReward;
 import com.i2r.alan.rate_this_place.myrewards.MyRewardActivity;
 import com.i2r.alan.rate_this_place.pasivedatacollection.PassiveDataToFTPIntentService;
 import com.i2r.alan.rate_this_place.pasivedatacollection.SensorListenerService;
@@ -68,7 +72,11 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace" + "/" + "ActiveData"));
         DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace" + "/" + "PendingToSend"));
 
+
+
     }
+
+
 
     public void showPopup(View v) {
         PopupMenu popup = new PopupMenu(this, v);
@@ -91,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     @Override
     public void onResume() {
         super.onResume();
+        new AsyncTaskGetDataToMyReward(this,(LinearLayout)findViewById(R.id.linearLayout_rewardbar)).execute();
        // Intent intent = new Intent(this, SensorListenerService.class);
        // startService(intent);
     }

@@ -6,8 +6,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.i2r.alan.rate_this_place.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,8 +29,7 @@ public class MyRewardActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        new AsyncTaskGetDataToMyReward(JsonGenerator_basicrating, (TextView)findViewById(com.i2r.alan.rate_this_place.R.id.textView_Rewards),(TextView)findViewById(com.i2r.alan.rate_this_place.R.id.textView10),
-                (ProgressBar) findViewById(com.i2r.alan.rate_this_place.R.id.progressBar_locationname)).execute();
+       // new AsyncTaskGetDataToMyReward(this,(LinearLayout)findViewById(R.id.linearLayout_rewardbar)).execute();
 
 
     }
