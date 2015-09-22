@@ -75,7 +75,7 @@ public class AsyncTaskGetDataToMyReward extends AsyncTask {
         try {
 
             url = new URL("http://www.ratethisplace.co/getMyRewards.php?MyRewardsJson="+JsonGenerator_basicrating.toString().replaceAll(" ", "%20"));
-            //Log.i(AsyncTaskGetDataToMyReward_TAG, "http://www.ratethisplace.co/getMyRewards.php?MyRewardsJson="+JsonGenerator_basicrating.toString().replaceAll(" ", "%20"));
+             Log.i(AsyncTaskGetDataToMyReward_TAG, "http://www.ratethisplace.co/getMyRewards.php?MyRewardsJson="+JsonGenerator_basicrating.toString().replaceAll(" ", "%20"));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

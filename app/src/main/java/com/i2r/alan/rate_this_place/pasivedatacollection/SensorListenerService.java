@@ -36,6 +36,7 @@ import com.google.android.gms.location.DetectedActivity;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 /**
@@ -48,7 +49,7 @@ public class SensorListenerService extends Service implements SensorEventListene
     boolean mAllowRebind; // indicates whether onRebind should be used
     protected static final String GoogleApiTAG = "GoogleApi";
     /*location*/
-    LocationManager mlocationManager;
+    LocationManager mlocationManager = null;
     /*sensor*/
     private SensorManager sensorManager = null;
     PowerManager.WakeLock wakeLock;
@@ -95,6 +96,14 @@ public class SensorListenerService extends Service implements SensorEventListene
     final Runnable Battery_runable = new Runnable() {
         public void run() {
             ReadBatteryLevel();
+            Calendar c = Calendar.getInstance();
+            int HOUR_OF_DAY = c.get(Calendar.HOUR_OF_DAY);
+            if ((HOUR_OF_DAY>12)&&(HOUR_OF_DAY<5)){
+                stopsensing();
+            }
+            else {
+                startsensing();
+            }
             Batteryhandler.postDelayed(this, 1000*60*15);
         }
     };
@@ -149,34 +158,10 @@ public class SensorListenerService extends Service implements SensorEventListene
         mGoogleApiClient.connect();
 
         /*sensor - read all sensors*/
-
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-
-        /*List<Sensor> sensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
-        for (Sensor sensor : sensors)
-        {
-            if sensor.
-            sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
-        }*/
-
-        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), (int)(1/(float)ACCsamplingrate)*1000*1000);
-        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), (int)(1/(float)GROsamplingrate)*1000*1000);
-        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT), (int)(1/(float)Lightsamplingrate)*1000*1000);
-        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), 1000*1000);
-        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY), 1000*1000);
+        startsensing();
 
 
 
-        /*location */
-        // Acquire a reference to the system Location Manager
-        mlocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        // Register the listener with the Location Manager to receive location updates
-        mlocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this); //long minTime, float minDistance
-        mlocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-
-        /*sound_level*/
-      //   soundlevel.Soundlevel_start();
-      //  Soundlevel_handler.postDelayed(Soundlevel_runable, 1000);
 
 
         /*battery_level*/
@@ -185,6 +170,38 @@ public class SensorListenerService extends Service implements SensorEventListene
         Batteryhandler.postDelayed(Battery_runable, 1000);
 
     }
+
+    public void startsensing() {
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), (int)(1/(float)ACCsamplingrate)*1000*1000);
+        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), (int)(1/(float)GROsamplingrate)*1000*1000);
+        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT), (int)(1/(float)Lightsamplingrate)*1000*1000);
+        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), 1000*1000);
+        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY), 1000*1000);
+
+        /*location */
+        // Acquire a reference to the system Location Manager
+        mlocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        // Register the listener with the Location Manager to receive location updates
+        mlocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this); //long minTime, float minDistance
+        mlocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+    }
+
+    public void stopsensing() {
+        if (sensorManager!=null){
+            sensorManager.unregisterListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
+            sensorManager.unregisterListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE));
+            sensorManager.unregisterListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT));
+            sensorManager.unregisterListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD));
+            sensorManager.unregisterListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY));
+            if (mlocationManager!=null){
+                mlocationManager.removeUpdates(this);
+            }
+        }
+
+    }
+
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 

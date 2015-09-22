@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         checkNetworkandGPS();
         checkFirstRun();
-        ReadGoogleAccount();
+
         DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace"));
         DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace" + "/" + "PassiveData"));
         DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace" + "/" + "ActiveData"));
@@ -168,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             // Place your dialog code here to display the dialog
 
             Log.i(FirstRun_TAG, "User  agree");
+            ReadGoogleAccount();
             Intent intent = new Intent(this, SensorListenerService.class);
             startService(intent);
         }
@@ -178,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         }
     }
 
-    public String ReadGoogleAccount() {
+    public void ReadGoogleAccount() {
 
         Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
         String possibleEmail = null;
@@ -198,7 +199,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 .apply();
 
         ((TextView)findViewById(R.id.textView_UserID)).setText("UserID: "+possibleEmail);
-        return possibleEmail;
 
     }
 
