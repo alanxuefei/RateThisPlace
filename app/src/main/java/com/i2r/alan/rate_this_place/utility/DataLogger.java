@@ -24,7 +24,7 @@ public class DataLogger {
     /* write into text file*/
     protected static final String Log_TAG = "Log";
 
-    public static String Myid="alan";
+
     public static String mystorefilename;
 
 

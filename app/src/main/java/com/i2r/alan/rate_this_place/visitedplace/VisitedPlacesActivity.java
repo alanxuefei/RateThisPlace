@@ -1,6 +1,8 @@
 package com.i2r.alan.rate_this_place.visitedplace;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +14,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.i2r.alan.rate_this_place.database.DBContract;
+import com.i2r.alan.rate_this_place.database.DBHelper;
 import com.i2r.alan.rate_this_place.ratethisplace.RateThisPlaceActivity;
 
 import org.json.JSONArray;
@@ -40,31 +44,8 @@ public class VisitedPlacesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(com.i2r.alan.rate_this_place.R.layout.activity_visited_places);
 
-        String content = null;
-        try {
-            File f=new File(Environment.getExternalStorageDirectory() + "/" + "RateThisPlace" + "/" + "ActiveData/" + "visitedplace.txt");
-            if (f.exists()) {
-                content = new Scanner(new File(Environment.getExternalStorageDirectory() + "/" + "RateThisPlace" + "/" + "ActiveData/" + "visitedplace.txt")).useDelimiter("\\Z").next();
 
-                JSONArray mJsonArray = new JSONArray( "["+content.toString()+"]");
-
-                for(int i = 0 ; i < mJsonArray.length()-1; i++) {
-                    VisitedPlaceList.add(((mJsonArray.getJSONObject(i)).getString("Datetime")).toString()+"\n "+mJsonArray.getJSONObject(i).getString("Geofence").toString());
-                }
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        catch (JSONException e) {
-        e.printStackTrace();
-        Log.i("visitedpalce", "wrong");
-        }
-
-
-
-
-
+        readDB(VisitedPlaceList);
 
         HumanActivityListView = (ListView) findViewById(com.i2r.alan.rate_this_place.R.id.listView_HumanActivity);
 
@@ -119,7 +100,56 @@ public class VisitedPlacesActivity extends AppCompatActivity {
     }
 
     public void ReturnButton(View v) {
-        Log.i("test", "returen");
+        Log.i("test", "return");
         super.onBackPressed();
+    }
+
+
+    public void readDB(List<String> VisitedPlaceList) {
+
+        DBHelper mDbHelper = new DBHelper(this);
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+
+// Define a projection that specifies which columns from the database
+// you will actually use after this query.
+        String[] projection = {
+                DBContract.FeedEntry.COLUMN_NAME_DATE,
+                DBContract.FeedEntry.COLUMN_NAME_TIME,
+                DBContract.FeedEntry.COLUMN_LOCATION_LONGITUDE,
+                DBContract.FeedEntry.COLUMN_LOCATION_LATITUDE,
+                DBContract.FeedEntry.COLUMN_LOCATION_NAME
+        };
+
+// How you want the results sorted in the resulting Cursor
+
+
+        Cursor c = db.query(
+                DBContract.FeedEntry.TABLE_NAME,  // The table to query
+                projection,                               // The columns to return
+                null,                                // The columns for the WHERE clause
+                null,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                 // The sort order
+        );
+
+        c.moveToFirst();
+        while (!c.isLast()){
+            String vLOCATION_NAME = c.getString(
+                    c.getColumnIndexOrThrow(DBContract.FeedEntry.COLUMN_LOCATION_NAME)
+            );
+
+            String  vTIME = c.getString(
+                    c.getColumnIndexOrThrow(DBContract.FeedEntry.COLUMN_NAME_TIME)
+            );
+
+            VisitedPlaceList.add(vTIME+" "+vLOCATION_NAME);
+            c.moveToNext();
+
+        }
+        db.close();
+        mDbHelper.close();
+
     }
 }

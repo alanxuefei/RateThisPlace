@@ -13,7 +13,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TabHost;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.i2r.alan.rate_this_place.R;
+import com.i2r.alan.rate_this_place.utility.Constants;
 import com.i2r.alan.rate_this_place.utility.globalvariable;
 
 public class RateThisPlaceActivity  extends TabActivity implements TabHost.OnTabChangeListener, LocationListener {
@@ -22,49 +24,66 @@ public class RateThisPlaceActivity  extends TabActivity implements TabHost.OnTab
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate_this_place);
-        Intent intent = getIntent();
-        String From= intent.getStringExtra("From");
-        String TheLocation= intent.getStringExtra("TheLocation");
 
         TabHost tabHost = (TabHost)findViewById(android.R.id.tabhost);
         tabHost.setup();
         TabHost.TabSpec spec1=tabHost.newTabSpec("Tab 1");
         spec1.setIndicator("Rating");
         Intent startBasicIntent = new Intent();
-        startBasicIntent.putExtra("From", From);
-        startBasicIntent.putExtra("TheLocation", TheLocation);
+
         spec1.setContent(startBasicIntent.setClass(this, RateThisPlaceRatingActivity.class));
 
         TabHost.TabSpec spec2=tabHost.newTabSpec("Tab 2");
         spec2.setIndicator("Activity");
         Intent startDetailIntent = new Intent();
-        startDetailIntent.putExtra("From", From);
-        startDetailIntent.putExtra("TheLocation", TheLocation);
+
         spec2.setContent(startDetailIntent.setClass(this, RateThisPlaceActivityActivity.class));
 
         tabHost.addTab(spec1);
         tabHost.addTab(spec2);
 
 
+        Intent intent = getIntent();
+        String From= intent.getStringExtra("From");
+        if (From!=null){
+            Log.i("LoactionName", From);
+            if (From.equals("MainActivity")){
 
-        LocationManager lm=(LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-         boolean gps_enabled=lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-         boolean network_enabled=lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+                LocationManager lm=(LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+                boolean gps_enabled=lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                boolean network_enabled=lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-        if(gps_enabled){
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-            Log.i("ratelocation", "gps_enabled");
-        }
-        else{
-            if(network_enabled){
-                lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-                Log.i("ratelocation", "network_enabled");
+                if(gps_enabled){
+                    lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                    Log.i("ratelocation", "gps_enabled");
+                }
+                else{
+                    if(network_enabled){
+                        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+                        Log.i("ratelocation", "network_enabled");
+                    }
+
+                    else{
+
+                    }
+                }
+
             }
-
             else{
+                if (From.equals("VisitedPlacesActivity")){
+                   // String TheLocation= intent.getStringExtra("TheLocation");
 
+                  //  LatLng thelocation= Constants.BAY_AREA_LANDMARKS.get(TheLocation);
+                 //   globalvariable.thelocation=location(thelocation);
+                   // mLastLocation.setLatitude(thelocation.latitude);//your coords of course
+                    //mLastLocation.setLongitude(thelocation.longitude);
+
+
+                }
             }
         }
+
+
 
 
     }

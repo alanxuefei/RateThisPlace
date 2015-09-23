@@ -45,67 +45,68 @@ android:layout_height="match_parent"
 
 
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:id="@+id/imageView_rewards1"
                         android:src="@drawable/rewards_cup"
                         android:cropToPadding="false"
                         android:background="#FFFFFF"
                         android:adjustViewBounds="false"
                         android:layout_gravity="left"
-                        android:paddingRight="10dp" />
+                        android:paddingRight="1dp" />
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:id="@+id/imageView_rewards2"
-                        android:src="@drawable/rewards_cup"
+                        android:src="@drawable/rewards_cup_unactive"
                         android:cropToPadding="false"
                         android:background="#FFFFFF"
                         android:adjustViewBounds="false"
                         android:layout_gravity="left"
-                        android:paddingRight="10dp" />
+                        android:paddingRight="1dp" />
+
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:id="@+id/imageView_rewards3"
-                        android:src="@drawable/rewards_cup"
+                        android:src="@drawable/rewards_cup_unactive"
                         android:cropToPadding="false"
                         android:background="#FFFFFF"
                         android:adjustViewBounds="false"
                         android:layout_gravity="left"
-                        android:paddingRight="10dp" />
+                        android:paddingRight="1dp" />
+
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:id="@+id/imageView_rewards4"
-                        android:src="@drawable/rewards_cup"
+                        android:src="@drawable/rewards_cup_unactive"
                         android:cropToPadding="false"
                         android:background="#FFFFFF"
                         android:adjustViewBounds="false"
                         android:layout_gravity="left"
-                        android:paddingRight="10dp" />
+                        android:paddingRight="1dp" />
 
 
 
 
                     <ProgressBar
-                        style="?android:attr/progressBarStyleHorizontal"
-
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent"
+                        style="@android:style/Widget.ProgressBar.Horizontal"
+                        android:layout_width="130dp"
+                        android:layout_height="20dp"
                         android:id="@+id/progressBar"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
                         android:layout_margin="5dp"
-
                         android:progress="20"
                         android:indeterminate="false" />
 
                     <TextView
                         android:layout_width="43dp"
                         android:layout_height="25dp"
-                        android:text="70%"
+                        android:text="30%"
+                        android:layout_margin="5dp"
                         android:background="#FFFFFF"
                         android:textColor="#000000"
                         android:id="@+id/textView_Rewards"/>

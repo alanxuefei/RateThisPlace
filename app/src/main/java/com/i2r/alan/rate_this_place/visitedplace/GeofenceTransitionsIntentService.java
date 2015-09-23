@@ -19,8 +19,10 @@ package com.i2r.alan.rate_this_place.visitedplace;
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
@@ -28,13 +30,19 @@ import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.i2r.alan.rate_this_place.database.DBContract;
+import com.i2r.alan.rate_this_place.database.DBHelper;
+import com.i2r.alan.rate_this_place.utility.Constants;
 import com.i2r.alan.rate_this_place.utility.DataLogger;
 import com.i2r.alan.rate_this_place.MainActivity;
 
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -96,10 +104,13 @@ public class GeofenceTransitionsIntentService extends IntentService {
 
             // Send notification and log the transition details.
             sendNotification(geofenceTransitionDetails);
+
+
+
             DataLogger.AddtoVisitedPlacesList(geofenceTransitionDetails.replace("Entered: ", ""));
             Log.i(TAG, geofenceTransitionDetails);
         } else {
-            // Log the error.
+            // Log the error.s
             Log.e(TAG, getString(com.i2r.alan.rate_this_place.R.string.geofence_transition_invalid_type, geofenceTransition));
 
         }
@@ -126,6 +137,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
         ArrayList triggeringGeofencesIdsList = new ArrayList();
         for (Geofence geofence : triggeringGeofences) {
             triggeringGeofencesIdsList.add(geofence.getRequestId());
+            addDB(geofence.getRequestId());
         }
         String triggeringGeofencesIdsString = TextUtils.join(", ", triggeringGeofencesIdsList);
 
@@ -193,5 +205,37 @@ public class GeofenceTransitionsIntentService extends IntentService {
             default:
                 return getString(com.i2r.alan.rate_this_place.R.string.unknown_geofence_transition);
         }
+    }
+
+
+    private void addDB(String LocationName) {
+                        /*my code*/
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd");
+        String currentDate = sdf.format(new Date());
+        sdf = new SimpleDateFormat("HH:mm:ss");
+        String currentTime = sdf.format(new Date());
+        DBHelper mDbHelper = new DBHelper(this);
+        LatLng  detectedlocation_LatLng = Constants.BAY_AREA_LANDMARKS.get(LocationName);
+        // Gets the data repository in write mode
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put(DBContract.FeedEntry.COLUMN_NAME_DATE, currentDate);
+        values.put(DBContract.FeedEntry.COLUMN_NAME_TIME, currentTime);
+        values.put(DBContract.FeedEntry.COLUMN_LOCATION_NAME, LocationName);
+        values.put(DBContract.FeedEntry.COLUMN_LOCATION_LATITUDE, detectedlocation_LatLng.latitude);
+        values.put(DBContract.FeedEntry.COLUMN_LOCATION_LONGITUDE,detectedlocation_LatLng.longitude);
+
+        // Insert the new row, returning the primary key value of the new row
+        long newRowId;
+        newRowId = db.insert(
+                DBContract.FeedEntry.TABLE_NAME,
+                null,
+                values);
+        Log.e(TAG, "geo insert"+newRowId);
+        db.close();
+        mDbHelper.close();
     }
 }

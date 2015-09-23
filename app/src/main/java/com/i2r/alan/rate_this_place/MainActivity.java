@@ -3,8 +3,10 @@ package com.i2r.alan.rate_this_place;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.bluetooth.BluetoothAdapter;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -25,6 +27,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.i2r.alan.rate_this_place.database.DBContract;
+import com.i2r.alan.rate_this_place.database.DBHelper;
 import com.i2r.alan.rate_this_place.feedback.FeedbackDialogFragment;
 import com.i2r.alan.rate_this_place.mapview.MapsActivity;
 import com.i2r.alan.rate_this_place.myrewards.AsyncTaskGetDataToMyReward;
@@ -34,10 +39,13 @@ import com.i2r.alan.rate_this_place.pasivedatacollection.SensorListenerService;
 import com.i2r.alan.rate_this_place.ratethisplace.RateThisPlaceActivity;
 import com.i2r.alan.rate_this_place.usersetting.UserAgreementDialogFragment;
 import com.i2r.alan.rate_this_place.usersetting.UserProfileActivity;
+import com.i2r.alan.rate_this_place.utility.Constants;
 import com.i2r.alan.rate_this_place.utility.DataLogger;
 import com.i2r.alan.rate_this_place.visitedplace.GeofencingService;
 import com.i2r.alan.rate_this_place.visitedplace.VisitedPlacesActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 /**
@@ -73,7 +81,39 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace" + "/" + "PendingToSend"));
 
 
+        addDB("I2ROffice");
 
+
+    }
+
+
+    private void addDB(String LocationName) {
+                        /*my code*/
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd");
+        String currentDate = sdf.format(new Date());
+        sdf = new SimpleDateFormat("HH:mm:ss");
+        String currentTime = sdf.format(new Date());
+        DBHelper mDbHelper = new DBHelper(this);
+        LatLng detectedlocation_LatLng = Constants.BAY_AREA_LANDMARKS.get(LocationName);
+        // Gets the data repository in write mode
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put(DBContract.FeedEntry.COLUMN_NAME_DATE, currentDate);
+        values.put(DBContract.FeedEntry.COLUMN_NAME_TIME, currentTime);
+        values.put(DBContract.FeedEntry.COLUMN_LOCATION_NAME, LocationName);
+        values.put(DBContract.FeedEntry.COLUMN_LOCATION_LATITUDE, detectedlocation_LatLng.latitude);
+        values.put(DBContract.FeedEntry.COLUMN_LOCATION_LONGITUDE,detectedlocation_LatLng.longitude);
+
+        // Insert the new row, returning the primary key value of the new row
+        long newRowId;
+        newRowId = db.insert(
+                DBContract.FeedEntry.TABLE_NAME,
+                null,
+                values);
+        Log.e("test1", "geo insert"+newRowId);
     }
 
 

@@ -56,29 +56,7 @@ public class RateThisPlaceRatingActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.i2r.alan.rate_this_place.R.layout.activity_rating);
-        Intent intent = getIntent();
 
-        String From= intent.getStringExtra("From");
-        addListenerOnRatingBar();
-       if (From!=null){
-           Log.i("LoactionName", From);
-            if (From.equals("MainActivity")){
-
-            }
-           else{
-                if (From.equals("VisitedPlacesActivity")){
-                    String TheLocation= intent.getStringExtra("TheLocation");
-
-                    LatLng thelocation= Constants.BAY_AREA_LANDMARKS.get(TheLocation);
-                   Log.i("LoactionName", thelocation.toString());
-                     mLastLocation.setLatitude(thelocation.latitude);//your coords of course
-                    mLastLocation.setLongitude(thelocation.longitude);
-                    ProgressBar mprogressBar_locationname = (ProgressBar) findViewById(com.i2r.alan.rate_this_place.R.id.progressBar_locationname);
-                    mprogressBar_locationname.setVisibility(View.GONE);
-
-                }
-            }
-       }
 
         final EditText mAutoCompleteTextView_Commentary= (EditText) findViewById(com.i2r.alan.rate_this_place.R.id.AutoCompleteTextView_Commentary);
 

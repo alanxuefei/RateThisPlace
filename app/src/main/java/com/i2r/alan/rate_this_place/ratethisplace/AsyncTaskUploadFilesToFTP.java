@@ -123,7 +123,9 @@ public class AsyncTaskUploadFilesToFTP extends AsyncTask {
         }
 
         try {
-            boolean existing =mFtpClient.changeWorkingDirectory(DataLogger.Myid);
+
+
+            boolean existing =mFtpClient.changeWorkingDirectory(context.getSharedPreferences("UserInfo", context.MODE_PRIVATE).getString("UserID", null));
             if (existing) {
                 Log.e("FTP", "can");
             }
