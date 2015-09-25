@@ -101,7 +101,8 @@ android:layout_height="match_parent"
                         android:layout_alignParentEnd="true"
                         android:layout_margin="5dp"
                         android:progress="0"
-                        android:indeterminate="false" />
+                        android:indeterminate="false"
+                        android:max="100" />
 
                     <TextView
                         android:layout_width="43dp"

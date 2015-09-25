@@ -183,7 +183,7 @@ public class AsyncTaskGetDataToMyRewardBar extends AsyncTask {
                     TextViewRewards.setText("100%");
                 }
                 else {
-                    ProgressBar_rewards.setProgress(thepoints % 10);
+                    ProgressBar_rewards.setProgress((thepoints % 10)*10);
                     TextViewRewards.setText((thepoints%10)*10+"%");
                 }
 
