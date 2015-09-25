@@ -2,10 +2,12 @@ package com.i2r.alan.rate_this_place.ratethisplace;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.i2r.alan.rate_this_place.mapview.MapsActivity;
 import com.i2r.alan.rate_this_place.utility.DataLogger;
 
 import org.apache.commons.net.ftp.FTP;
@@ -94,6 +96,7 @@ public class AsyncTaskUploadRating extends AsyncTask {
         super.onPostExecute(o);
         Toast.makeText(this.context, "File is uploaded successfully", Toast.LENGTH_SHORT).show();
         barProgressDialog.dismiss();
+        context.startActivity(new Intent(context, MapsActivity.class));
     }
 
 

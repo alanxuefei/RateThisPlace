@@ -18,10 +18,14 @@ package com.i2r.alan.rate_this_place.pasivedatacollection;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEventListener;
+import android.util.Log;
 
 import com.i2r.alan.rate_this_place.utility.Constants;
 import com.google.android.gms.location.ActivityRecognitionResult;
 import com.google.android.gms.location.DetectedActivity;
+import com.i2r.alan.rate_this_place.utility.DataLogger;
 
 import java.util.ArrayList;
 
@@ -64,6 +68,14 @@ public class DetectedActivitiesIntentService extends IntentService {
         // 0 and 100.
         ArrayList<DetectedActivity> detectedActivities = (ArrayList) result.getProbableActivities();
         // Broadcast the list of detected activities.
+
+        // Log each activity.
+        for (DetectedActivity da: detectedActivities) {
+            String Activity_value = Constants.getActivityString(
+                    getApplicationContext(),
+                    da.getType()) + " " + da.getConfidence() + "%";
+            DataLogger.writeTolog("GA " + Activity_value + "\n", SensorListenerService.logswich);
+        }
         localIntent.putExtra(Constants.ACTIVITY_EXTRA, detectedActivities);
         sendBroadcast(localIntent);
     }

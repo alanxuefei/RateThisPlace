@@ -2,10 +2,12 @@ package com.i2r.alan.rate_this_place.ratethisplace;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.i2r.alan.rate_this_place.mapview.MapsActivity;
 import com.i2r.alan.rate_this_place.utility.DataLogger;
 
 import org.json.JSONException;
@@ -133,6 +135,8 @@ public class AsyncTaskUploadActivity extends AsyncTask {
         }
         Log.i("php", total.toString());
 
+
+        context.startActivity(new Intent(context, MapsActivity.class));
 
     }
 

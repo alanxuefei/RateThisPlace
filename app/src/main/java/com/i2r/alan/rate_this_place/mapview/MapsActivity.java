@@ -1,7 +1,5 @@
 package com.i2r.alan.rate_this_place.mapview;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -12,7 +10,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,12 +29,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.util.regex.Pattern;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, PopupMenu.OnMenuItemClickListener,LocationListener {
 
@@ -55,14 +48,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(com.i2r.alan.rate_this_place.R.layout.activity_maps);
         checkNetworkandGPS();
-        checkFirstRun();
-        ReadGoogleAccount();
+
              /*location */
         // Acquire a reference to the system Location Manager
-        mlocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+       // mlocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         // Register the listener with the Location Manager to receive location updates
-        mlocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this); //long minTime, float minDistance
-        mlocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+       // mlocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this); //long minTime, float minDistance
+       // mlocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
         setUpMapIfNeeded();
     }
 
@@ -119,7 +111,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.setMyLocationEnabled(true);
         mMap.setIndoorEnabled(true);
-        (new AsyncTaskGetDataToMap(this,mMap,mLastLocation)).execute();
+        (new AsyncTaskGetRatingDataToMap(this,mMap,mLastLocation)).execute();
+        (new AsyncTaskGetActivitiesDataToMap(this,mMap,mLastLocation)).execute();
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(1.348551, 103.813059), 10));
     }
 
     @Override
@@ -283,26 +277,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    public String ReadGoogleAccount() {
-        Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
-        String possibleEmail = null;
-        Account[] accounts = AccountManager.get(this).getAccounts();
-        for (Account account : accounts) {
-            if (emailPattern.matcher(account.name).matches()) {
-                possibleEmail = account.name;
-                Log.i("GoogleAccount", possibleEmail);
-            }
-        }
-
-        this.getSharedPreferences("UserInfo", this.MODE_PRIVATE)
-                .edit()
-                .putString("UserID",possibleEmail)
-                .apply();
-
-        //((TextView)findViewById(R.id.textView_UserID)).setText("UserID: "+possibleEmail);
-        return possibleEmail;
-
-    }
 
 
 
@@ -312,7 +286,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onLocationChanged(Location location) {
 
 
-        double longitude = location.getLongitude();
+      /*  double longitude = location.getLongitude();
         double latitude =  location.getLatitude();
         LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
         String Location_information= "L " + longitude + " " + latitude+" "+location.getProvider();
@@ -330,7 +304,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Log.i("location", Location_information);
 
-
+*/
         //Toast.makeText(this, Location_information, Toast.LENGTH_SHORT).show();
 
     }

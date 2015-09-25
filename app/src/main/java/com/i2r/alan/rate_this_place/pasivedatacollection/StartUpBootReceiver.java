@@ -14,7 +14,6 @@ import java.util.Calendar;
 public class StartUpBootReceiver  extends BroadcastReceiver {
 
     @Override
-
     public void onReceive(Context context, Intent intent) {
 
         if ("android.intent.action.BOOT_COMPLETED".equals(intent.getAction())) {

@@ -1,10 +1,8 @@
 package com.i2r.alan.rate_this_place.myrewards;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -29,22 +27,29 @@ import java.net.URL;
  * Created by Xue Fei on 1/7/2015.
  */
 
-public class AsyncTaskGetDataToMyReward extends AsyncTask {
+public class AsyncTaskGetDataToMyRewardBar extends AsyncTask {
     private Context context;
     private String UserID;
     protected static final String AsyncTaskGetDataToMyReward_TAG = "AsyncTaskGetData_MYREWARDS";
+    ImageView image0,image1,image2,image3;
 
-    TextView  TextViewConnection;
+    TextView  TextViewConnection,TextViewRewards;
 
     LinearLayout mLinearLayoutrewardbar;
+    ProgressBar ProgressBar_rewards;
 
 
 
 
-    public AsyncTaskGetDataToMyReward(Context context0,LinearLayout LinearLayout0) {
+    public AsyncTaskGetDataToMyRewardBar(Context context0, ImageView image0,ImageView image1,ImageView image2,ImageView image3,ProgressBar ProgressBar_rewards,TextView Rewards) {
         super();
         this.context=context0;
-        this.mLinearLayoutrewardbar=LinearLayout0;
+        this.image0=image0;
+        this.image1=image1;
+        this.image2=image2;
+        this.image3=image3;
+        this.ProgressBar_rewards=ProgressBar_rewards;
+        this.TextViewRewards=Rewards;
 
 
        // this.progressBar_points=progressBar_points0;
@@ -129,11 +134,60 @@ public class AsyncTaskGetDataToMyReward extends AsyncTask {
                         .edit()
                         .putString("Rewards", mJsonResponse.getString("Reward"))
                 .apply();
-                mLinearLayoutrewardbar.removeAllViews();
 
-                for(int i=0 ; i < (thepoints/10) ; i++) { addcup(); }
 
-                addcircle(thepoints%10);
+                int cups=thepoints/10;
+                switch (cups) {
+                    case 0:
+                        image0.setImageResource(R.drawable.rewards_cup_unactive);
+                        image1.setImageResource(R.drawable.rewards_cup_unactive);
+                        image2.setImageResource(R.drawable.rewards_cup_unactive);
+                        image3.setImageResource(R.drawable.rewards_cup_unactive);
+                        break;
+                    case 1:
+                        image0.setImageResource(R.drawable.rewards_cup);
+                        image1.setImageResource(R.drawable.rewards_cup_unactive);
+                        image2.setImageResource(R.drawable.rewards_cup_unactive);
+                        image3.setImageResource(R.drawable.rewards_cup_unactive);
+                        break;
+                    case 2:
+                        image0.setImageResource(R.drawable.rewards_cup);
+                        image1.setImageResource(R.drawable.rewards_cup);
+                        image2.setImageResource(R.drawable.rewards_cup_unactive);
+                        image3.setImageResource(R.drawable.rewards_cup_unactive);
+                        break;
+
+                    case 3:
+                        image0.setImageResource(R.drawable.rewards_cup);
+                        image1.setImageResource(R.drawable.rewards_cup);
+                        image2.setImageResource(R.drawable.rewards_cup);
+                        image3.setImageResource(R.drawable.rewards_cup_unactive);
+                        break;
+                    case 4:
+                        image0.setImageResource(R.drawable.rewards_cup);
+                        image1.setImageResource(R.drawable.rewards_cup);
+                        image2.setImageResource(R.drawable.rewards_cup);
+                        image3.setImageResource(R.drawable.rewards_cup);
+                        break;
+
+                    default:
+                        image0.setImageResource(R.drawable.rewards_cup);
+                        image1.setImageResource(R.drawable.rewards_cup);
+                        image2.setImageResource(R.drawable.rewards_cup);
+                        image3.setImageResource(R.drawable.rewards_cup);
+                        break;
+
+                }
+                if (cups>=5){
+                    ProgressBar_rewards.setProgress(100);
+                    TextViewRewards.setText("100%");
+                }
+                else {
+                    ProgressBar_rewards.setProgress(thepoints % 10);
+                    TextViewRewards.setText((thepoints%10)*10+"%");
+                }
+
+
               //  progressBar_points.setProgress(Integer.parseInt(mJsonResponse.getString("Reward")));
 
             } catch (JSONException e) {
@@ -160,11 +214,10 @@ public class AsyncTaskGetDataToMyReward extends AsyncTask {
 
     public void addcup() {
         final float scale = context.getResources().getDisplayMetrics().density;
-        int pixels = (int) (40 * scale + 0.5f);
-
+        int pixels = (int) (30 * scale + 0.5f);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(pixels , pixels );
         pixels = (int) (5 * scale + 0.5f);
-        params.setMargins(pixels, pixels, pixels, pixels);
+        params.setMargins(pixels/2, pixels, 0, pixels);
         ImageView mRewardCup = new ImageView(context);
         mRewardCup.setLayoutParams(params);
         mRewardCup.setImageResource(R.drawable.rewards_cup);
@@ -173,16 +226,35 @@ public class AsyncTaskGetDataToMyReward extends AsyncTask {
 
     }
 
-    public void addcircle(int progress) {
+    public void addunactivecup() {
         final float scale = context.getResources().getDisplayMetrics().density;
-        int pixels = (int) (40 * scale + 0.5f);
+        int pixels = (int) (30 * scale + 0.5f);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(pixels , pixels );
         pixels = (int) (5 * scale + 0.5f);
-        params.setMargins(pixels, pixels, pixels, pixels);
-        com.i2r.alan.rate_this_place.utility.CircleProgressBar mRewardCup = new com.i2r.alan.rate_this_place.utility.CircleProgressBar(context);
+
+        params.setMargins(pixels/2, pixels, 0, pixels);
+        ImageView mRewardCup = new ImageView(context);
         mRewardCup.setLayoutParams(params);
-        mRewardCup.setProgress(progress*10);
+        mRewardCup.setImageResource(R.drawable.rewards_cup_unactive);
+        mRewardCup.setScaleType(ImageView.ScaleType.FIT_XY);
+        mLinearLayoutrewardbar.addView(mRewardCup);
+
+    }
+
+    public void addcircle(int progress) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        int pixels = (int) (30 * scale + 0.5f);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(pixels , pixels );
+        pixels = (int) (5 * scale + 0.5f);
+        params.setMargins(pixels, pixels, pixels, pixels);
+        ProgressBar mRewardCup = new ProgressBar(context, null,  R.style.Widget_AppCompat_ProgressBar_Horizontal);
+
+        mRewardCup.setIndeterminate(false);
+
+
+
+        mRewardCup.setProgress(progress * 10);
         mLinearLayoutrewardbar.addView(mRewardCup);
 
     }

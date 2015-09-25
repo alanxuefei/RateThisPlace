@@ -14,6 +14,7 @@ import com.google.maps.android.ui.IconGenerator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -28,7 +29,7 @@ import java.net.URL;
  * Created by Xue Fei on 1/7/2015.
  */
 
-public class AsyncTaskGetDataToMap extends AsyncTask {
+public class AsyncTaskGetActivitiesDataToMap extends AsyncTask {
     private Context context;
     private String UserID;
     protected static final String GetDataToMap_TAG = "GetDataToMap";
@@ -38,11 +39,11 @@ public class AsyncTaskGetDataToMap extends AsyncTask {
 
 
 
-    public AsyncTaskGetDataToMap(Context context,GoogleMap mmMap,Location mmLastLocation) {
+    public AsyncTaskGetActivitiesDataToMap(Context context0, GoogleMap mmMap, Location mmLastLocation) {
         super();
         this.mMap=mmMap;
         this.mLastLocation= mmLastLocation;
-        this.context=context;
+        this.context=context0;
 
 
     }
@@ -61,9 +62,16 @@ public class AsyncTaskGetDataToMap extends AsyncTask {
     protected Object doInBackground(Object[] params) {
         Log.i(GetDataToMap_TAG, "start");
         URL url = null;
+        JSONObject JsonGenerator_username = new JSONObject();
+        try {
+            JsonGenerator_username.put("UserID", context.getSharedPreferences("UserInfo", context.MODE_PRIVATE).getString("UserID", null));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         try {
 
-            url = new URL("http://www.ratethisplace.co/getDBtoMap.php");
+            url = new URL("http://www.ratethisplace.co/GetActivitiesDatatoMap.php?JsonData="+JsonGenerator_username.toString().replaceAll(" ", "%20"));
+            Log.i(GetDataToMap_TAG, "http://www.ratethisplace.co/GetActivitiesDatatoMap.php?JsonData="+JsonGenerator_username.toString().replaceAll(" ", "%20"));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -111,13 +119,13 @@ public class AsyncTaskGetDataToMap extends AsyncTask {
 
             for(int i = 0 ; i < mJsonArray.length(); i++) {
                 Log.i(GetDataToMap_TAG, mJsonArray.getJSONObject(i).toString());
-                /*mMap.addMarker(new MarkerOptions()
+              /*  mMap.addMarker(new MarkerOptions()
                         .position(new LatLng(Double.parseDouble( mJsonArray.getJSONObject(i).getString("LocationLatitude")), Double.parseDouble(mJsonArray.getJSONObject(i).getString("LocationLongitude"))))
                                 .title(mJsonArray.getJSONObject(i).getString("Date")+" "+mJsonArray.getJSONObject(i).getString("Time")).snippet(mJsonArray.getJSONObject(i).getString("Comment")).flat(true)).showInfoWindow();
-                */
+             */
 
 
-                addIcon(iconFactory, mJsonArray.getJSONObject(i).getString("Date")+" "+mJsonArray.getJSONObject(i).getString("Time")+":\r\n"+mJsonArray.getJSONObject(i).getString("Comment"), new LatLng(Double.parseDouble( mJsonArray.getJSONObject(i).getString("LocationLatitude")), Double.parseDouble(mJsonArray.getJSONObject(i).getString("LocationLongitude"))));
+                addIcon(iconFactory, mJsonArray.getJSONObject(i).getString("Date")+" "+mJsonArray.getJSONObject(i).getString("Time")+":\r\n"+"Activities: "+mJsonArray.getJSONObject(i).getString("Activities"), new LatLng(Double.parseDouble( mJsonArray.getJSONObject(i).getString("LocationLatitude")), Double.parseDouble(mJsonArray.getJSONObject(i).getString("LocationLongitude"))));
 
                // startDemo();
             }

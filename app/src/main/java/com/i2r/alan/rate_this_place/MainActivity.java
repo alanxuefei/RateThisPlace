@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
@@ -35,10 +36,11 @@ import com.i2r.alan.rate_this_place.mapview.MapsActivity;
 import com.i2r.alan.rate_this_place.myrewards.AsyncTaskGetDataToMyReward;
 import com.i2r.alan.rate_this_place.myrewards.MyRewardActivity;
 import com.i2r.alan.rate_this_place.pasivedatacollection.PassiveDataToFTPIntentService;
-import com.i2r.alan.rate_this_place.pasivedatacollection.SensorListenerService;
+import com.i2r.alan.rate_this_place.pasivedatacollection.WifiBroadcastReceiver;
 import com.i2r.alan.rate_this_place.ratethisplace.RateThisPlaceActivity;
 import com.i2r.alan.rate_this_place.usersetting.UserAgreementDialogFragment;
 import com.i2r.alan.rate_this_place.usersetting.UserProfileActivity;
+import com.i2r.alan.rate_this_place.utility.Commonfunctions;
 import com.i2r.alan.rate_this_place.utility.Constants;
 import com.i2r.alan.rate_this_place.utility.DataLogger;
 import com.i2r.alan.rate_this_place.visitedplace.GeofencingService;
@@ -70,19 +72,17 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         setContentView(R.layout.activity_main);
 
-        startService(new Intent(this, GeofencingService.class));
 
         checkNetworkandGPS();
         checkFirstRun();
+
+
+
 
         DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace"));
         DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace" + "/" + "PassiveData"));
         DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace" + "/" + "ActiveData"));
         DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace" + "/" + "PendingToSend"));
-
-
-        addDB("I2ROffice");
-
 
     }
 
@@ -139,7 +139,8 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     @Override
     public void onResume() {
         super.onResume();
-        new AsyncTaskGetDataToMyReward(this,(LinearLayout)findViewById(R.id.linearLayout_rewardbar)).execute();
+        checkNetworkandGPS();
+
        // Intent intent = new Intent(this, SensorListenerService.class);
        // startService(intent);
     }
@@ -209,8 +210,16 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
             Log.i(FirstRun_TAG, "User  agree");
             ReadGoogleAccount();
-            Intent intent = new Intent(this, SensorListenerService.class);
-            startService(intent);
+            startService(new Intent(this, GeofencingService.class));
+            Commonfunctions.setSensingAlarm(this);
+
+
+            //listen to wifi connection availability
+            IntentFilter wififilter = new IntentFilter();
+            wififilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+            //wififilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
+            WifiBroadcastReceiver mwifiReceiver = new WifiBroadcastReceiver(this);
+            registerReceiver(mwifiReceiver, wififilter);
         }
         else{
             Log.i(FirstRun_TAG, "User have not agree yet");
@@ -231,14 +240,14 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             }
         }
 
-        possibleEmail=possibleEmail+"_"+getUniqueHardwareID();
+        String uniqueUserID=possibleEmail+"_"+getUniqueHardwareID();
 
         this.getSharedPreferences("UserInfo", this.MODE_PRIVATE)
                 .edit()
-                .putString("UserID",possibleEmail)
+                .putString("UserID",uniqueUserID)
                 .apply();
 
-        ((TextView)findViewById(R.id.textView_UserID)).setText("UserID: "+possibleEmail);
+       ((TextView)findViewById(R.id.textView_UserID)).setText("UserID: "+this.getSharedPreferences("UserInfo", this.MODE_PRIVATE).getString("UserID", null));
 
     }
 
@@ -295,6 +304,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             {
                 ((TextView)findViewById(R.id.textView8)).setText("");
                 Log.i(GPS_Internet_Check_TAG, "internet Yes");
+                new AsyncTaskGetDataToMyReward(this,(LinearLayout)findViewById(R.id.linearLayout_rewardbar)).execute();
             }
             else{
                 ((TextView)findViewById(R.id.textView8)).setText("Internet is not available");
@@ -309,6 +319,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             {
                 ((TextView)findViewById(R.id.textView8)).setText("GPS is off");
                 Log.i(GPS_Internet_Check_TAG, "internet Yes");
+                new AsyncTaskGetDataToMyReward(this,(LinearLayout)findViewById(R.id.linearLayout_rewardbar)).execute();
             }
             else{
                 ((TextView)findViewById(R.id.textView8)).setText("Internet is not available and GPS is off");
@@ -374,4 +385,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         return super.onOptionsItemSelected(item);
 
     }
+
+
 }

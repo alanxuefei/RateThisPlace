@@ -96,15 +96,26 @@ public class SensorListenerService extends Service implements SensorEventListene
     final Runnable Battery_runable = new Runnable() {
         public void run() {
             ReadBatteryLevel();
-            Calendar c = Calendar.getInstance();
-            int HOUR_OF_DAY = c.get(Calendar.HOUR_OF_DAY);
-            if ((HOUR_OF_DAY>12)&&(HOUR_OF_DAY<5)){
-                stopsensing();
-            }
-            else {
-                startsensing();
-            }
             Batteryhandler.postDelayed(this, 1000*60*15);
+        }
+    };
+
+private boolean toggle=false;
+    private final Handler timemanagerhandler = new Handler();
+    final Runnable timemanager_runable = new Runnable() {
+        public void run() {
+             stopSelf();
+          /*  if (toggle){
+                stopsensing();
+                toggle=false;
+                timemanagerhandler.postDelayed(timemanager_runable, 1000*54*1);
+            }
+            else{
+                startsensing();
+                toggle=true;
+                timemanagerhandler.postDelayed(timemanager_runable, 1000*6*1);
+            }*/
+
         }
     };
 
@@ -116,7 +127,7 @@ public class SensorListenerService extends Service implements SensorEventListene
     protected GoogleApiClient mGoogleApiClient;
 
     public double ACCsamplingrate=10;  //100Hz will slow the system down
-    public double GROsamplingrate=10;
+    public double GROsamplingrate=1;
     public double Lightsamplingrate=0.5;
 
 
@@ -129,37 +140,20 @@ public class SensorListenerService extends Service implements SensorEventListene
     public void onCreate() {
 
         // get an instance of the receiver in your service
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Constants.BROADCAST_ACTION);
-        ActivityDetectionBroadcastReceiver mReceiver = new ActivityDetectionBroadcastReceiver(this);
-        registerReceiver(mReceiver, filter);
 
-        //listen to wifi connection availability
-        IntentFilter wififilter = new IntentFilter();
-        wififilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        //wififilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
-        WifiBroadcastReceiver mwifiReceiver = new WifiBroadcastReceiver(this);
-        registerReceiver(mwifiReceiver, wififilter);
+
+
 
         boolean DoesUserAgree = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("DoesUserAgree", true);
         if (DoesUserAgree==false){stopSelf();};
 
-        buildGoogleApiClient();
-        // The service is being created
 
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                 WakelockTag);
-
         wakeLock.acquire();
+
         Toast.makeText(this, "sensor service starting", Toast.LENGTH_SHORT).show();
-
-        /*googleApi*/
-        mGoogleApiClient.connect();
-
-        /*sensor - read all sensors*/
-        startsensing();
-
 
 
 
@@ -169,12 +163,18 @@ public class SensorListenerService extends Service implements SensorEventListene
         batteryStatus = this.registerReceiver(null, ifilter);
         Batteryhandler.postDelayed(Battery_runable, 1000);
 
+        /*timemanager_level*/
+        startsensing();
+        timemanagerhandler.postDelayed(timemanager_runable, 1000*60*1);
+
+
     }
 
     public void startsensing() {
+
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), (int)(1/(float)ACCsamplingrate)*1000*1000);
-       // sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), (int)(1/(float)GROsamplingrate)*1000*1000);
+        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), (int)(1/(float)GROsamplingrate)*1000*1000);
         sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT), (int)(1/(float)Lightsamplingrate)*1000*1000);
         sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), 1000*1000);
         sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY), 1000*1000);
@@ -185,12 +185,17 @@ public class SensorListenerService extends Service implements SensorEventListene
         // Register the listener with the Location Manager to receive location updates
         mlocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this); //long minTime, float minDistance
         mlocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+
+        buildGoogleApiClient();
+
+
+
     }
 
     public void stopsensing() {
         if (sensorManager!=null){
             sensorManager.unregisterListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
-          //  sensorManager.unregisterListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE));
+           sensorManager.unregisterListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE));
             sensorManager.unregisterListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT));
             sensorManager.unregisterListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD));
             sensorManager.unregisterListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY));
@@ -199,6 +204,11 @@ public class SensorListenerService extends Service implements SensorEventListene
             }
         }
 
+        wakeLock.release();
+
+
+
+        removeActivityUpdates();
     }
 
 
@@ -243,13 +253,8 @@ public class SensorListenerService extends Service implements SensorEventListene
 
         Log.d("startuptest", "stop service ");
 
-        Soundlevel_handler.removeCallbacks(Soundlevel_runable);
-        mlocationManager.removeUpdates(this);
-        sensorManager.unregisterListener(this);
-        soundlevel.Soundlevel_stop();
-        removeActivityUpdates();
-        mGoogleApiClient.disconnect();
-        wakeLock.release();
+        stopsensing();
+
         Toast.makeText(this, "sensor service Stop", Toast.LENGTH_SHORT).show();
         super.onDestroy();
         // The service is no longer used and is being destroyed
@@ -286,7 +291,7 @@ public class SensorListenerService extends Service implements SensorEventListene
             float x = event.values[0];
 
             // DataLogger.writeTolog( " A " + String.format("%.2f", x) + " " + String.format("%.2f", y) + " " + String.format("%.2f", z) + " "+Long.toString(event.timestamp)+"\n");
-            String dataformat= "L " + String.format("%3f", x)+ "\n";
+            String dataformat= "Li " + String.format("%3f", x)+ "\n";
             DataLogger.writeTolog( dataformat,logswich);
             Log.i(Sensor_TAG, Long.toString(event.timestamp) + dataformat);
         }
@@ -492,93 +497,7 @@ public class SensorListenerService extends Service implements SensorEventListene
     }
 
 
-    /**
-     * Receiver for intents sent by DetectedActivitiesIntentService via a sendBroadcast().
-     * Receives a list of one or more DetectedActivity objects associated with the current state of
-     * the device.
-     */
-    public class ActivityDetectionBroadcastReceiver extends BroadcastReceiver {
-        protected static final String TAG = "activity-detection-response-receiver";
-        Context from;
 
-        ActivityDetectionBroadcastReceiver(Context context){
-            from=context;
-        }
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            ArrayList<DetectedActivity> updatedActivities =
-                    intent.getParcelableArrayListExtra(Constants.ACTIVITY_EXTRA);
-
-            // Log each activity.
-            for (DetectedActivity da: updatedActivities) {
-                String Activity_value = Constants.getActivityString(
-                        getApplicationContext(),
-                        da.getType()) + " " + da.getConfidence() + "%";
-                DataLogger.writeTolog("GA " + Activity_value + "\n", SensorListenerService.logswich);
-                Log.i(GoogleApiTAG, Activity_value);
-                if (Activity_value.equals("Still 100%")){
-                   // sensorManager.unregisterListener((SensorEventListener) from,  sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
-                   // sensorManager.unregisterListener((SensorEventListener) from, sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE));
-                }
-                else{
-                    sensorManager.registerListener((SensorEventListener) from,  sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), (int)(1/(float)ACCsamplingrate)*1000*1000);
-                    sensorManager.registerListener((SensorEventListener) from,  sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), (int)(1/(float)GROsamplingrate)*1000*1000);
-                }
-            }
-        }
-    }
-
-
-    /**
-     * Receiver for intents sent by DetectedActivitiesIntentService via a sendBroadcast().
-     * Receives a list of one or more DetectedActivity objects associated with the current state of
-     * the device.
-     */
-    public class WifiBroadcastReceiver extends BroadcastReceiver {
-        protected static final String TAG = "activity-detection-response-receiver";
-        Context from;
-
-        WifiBroadcastReceiver(Context context){
-            from=context;
-        }
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-           Log.i("wifi","wifistart");
-
-            ConnectivityManager cm =
-                    (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-            boolean isConnected = activeNetwork != null &&
-                    activeNetwork.isConnectedOrConnecting();
-
-            if (isConnected) {
-                boolean isWiFi = activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
-                if (isWiFi){
-                    Log.i("wifi", "wifi-upload-start");
-                    File filepath= new File(Environment.getExternalStorageDirectory()+"/"+ "RateThisPlace"+"/PassiveData");
-                    if (folderSize(filepath)>10000){
-                        Intent mServiceIntent = new Intent(getBaseContext(), PassiveDataToFTPIntentService.class);
-                        startService(mServiceIntent);
-                    }
-
-                }
-            }
-        }
-    }
-
-    public static long folderSize(File directory) {
-        long length = 0;
-        for (File file : directory.listFiles()) {
-            if (file.isFile())
-                length += file.length();
-            else
-                length += folderSize(file);
-        }
-        return length;
-    }
 
 
 
