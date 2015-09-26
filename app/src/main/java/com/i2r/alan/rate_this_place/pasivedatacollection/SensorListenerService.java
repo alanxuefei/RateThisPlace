@@ -102,19 +102,31 @@ public class SensorListenerService extends Service implements SensorEventListene
 
 private boolean toggle=false;
     private final Handler timemanagerhandler = new Handler();
-    final Runnable timemanager_runable = new Runnable() {
+    public final Runnable timemanager_runable = new Runnable() {
         public void run() {
-             stopSelf();
-          /*  if (toggle){
-                stopsensing();
-                toggle=false;
-                timemanagerhandler.postDelayed(timemanager_runable, 1000*54*1);
+
+
+          //   stopSelf();
+
+            Calendar c = Calendar.getInstance();
+            int vHOUR_OF_DAY = c.get(Calendar.HOUR_OF_DAY);
+             Log.i("tiemcontroll", "hour is " + vHOUR_OF_DAY);
+            if ((vHOUR_OF_DAY>7)&&(vHOUR_OF_DAY<21)) {
+                if (toggle) {
+
+                    stopsensing();
+                    toggle = false;
+                    timemanagerhandler.postDelayed(timemanager_runable, 1000 * 60 * 1);
+                } else {
+
+                    startsensing();
+                    toggle = true;
+                    timemanagerhandler.postDelayed(timemanager_runable, 1000 * 10 * 1);
+                }
             }
             else{
-                startsensing();
-                toggle=true;
-                timemanagerhandler.postDelayed(timemanager_runable, 1000*6*1);
-            }*/
+                timemanagerhandler.postDelayed(timemanager_runable, 1000 * 60 * 10);
+            }
 
         }
     };
@@ -133,20 +145,19 @@ private boolean toggle=false;
 
     private SoundLevelMonitor soundlevel= new SoundLevelMonitor();
 
-
-
-
     @Override
     public void onCreate() {
 
         // get an instance of the receiver in your service
-
-
-
-
         boolean DoesUserAgree = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("DoesUserAgree", true);
         if (DoesUserAgree==false){stopSelf();};
 
+        //listen to wifi connection availability
+        IntentFilter wififilter = new IntentFilter();
+        wififilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        //wififilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
+        WifiBroadcastReceiver mwifiReceiver = new WifiBroadcastReceiver(this);
+        registerReceiver(mwifiReceiver, wififilter);
 
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
@@ -154,9 +165,6 @@ private boolean toggle=false;
         wakeLock.acquire();
 
         Toast.makeText(this, "sensor service starting", Toast.LENGTH_SHORT).show();
-
-
-
 
         /*battery_level*/
         ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
@@ -167,6 +175,15 @@ private boolean toggle=false;
         startsensing();
         timemanagerhandler.postDelayed(timemanager_runable, 1000*60*1);
 
+                /*location */
+        // Acquire a reference to the system Location Manager
+        mlocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        // Register the listener with the Location Manager to receive location updates
+        mlocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000 * 60 * 10, 0, this); //long minTime, float minDistance
+        mlocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000 * 60 * 10, 0, this);
+        buildGoogleApiClient();
+
+
 
     }
 
@@ -175,20 +192,11 @@ private boolean toggle=false;
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), (int)(1/(float)ACCsamplingrate)*1000*1000);
         sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), (int)(1/(float)GROsamplingrate)*1000*1000);
-        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT), (int)(1/(float)Lightsamplingrate)*1000*1000);
-        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), 1000*1000);
-        sensorManager.registerListener(this,  sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY), 1000*1000);
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT), (int) (1 / (float) Lightsamplingrate) * 1000 * 1000);
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), 1000 * 1000);
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY), 1000 * 1000);
 
-        /*location */
-        // Acquire a reference to the system Location Manager
-        mlocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        // Register the listener with the Location Manager to receive location updates
-        mlocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this); //long minTime, float minDistance
-        mlocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-
-        buildGoogleApiClient();
-
-
+        Toast.makeText(this, "start sensing", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -199,13 +207,13 @@ private boolean toggle=false;
             sensorManager.unregisterListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT));
             sensorManager.unregisterListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD));
             sensorManager.unregisterListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY));
-            if (mlocationManager!=null){
-                mlocationManager.removeUpdates(this);
-            }
+          //  if (mlocationManager!=null){
+         //       mlocationManager.removeUpdates(this);
+          //  }
         }
 
-        wakeLock.release();
 
+        Toast.makeText(this, "stop sensing", Toast.LENGTH_SHORT).show();
 
 
         removeActivityUpdates();
@@ -254,7 +262,7 @@ private boolean toggle=false;
         Log.d("startuptest", "stop service ");
 
         stopsensing();
-
+        wakeLock.release();
         Toast.makeText(this, "sensor service Stop", Toast.LENGTH_SHORT).show();
         super.onDestroy();
         // The service is no longer used and is being destroyed

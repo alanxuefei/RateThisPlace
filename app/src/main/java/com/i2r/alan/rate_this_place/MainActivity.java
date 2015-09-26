@@ -72,13 +72,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         setContentView(R.layout.activity_main);
 
-
-        checkNetworkandGPS();
-        checkFirstRun();
-
-
-
-
         DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace"));
         DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace" + "/" + "PassiveData"));
         DataLogger.CheckAndCreateFolder(String.valueOf("RateThisPlace" + "/" + "ActiveData"));
@@ -129,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     @Override
     public void onStart() {
         super.onStart();
-        checkNetworkandGPS();
+
 
 
        // Intent intent = new Intent(this, SensorListenerService.class);
@@ -139,9 +132,9 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     @Override
     public void onResume() {
         super.onResume();
-        checkNetworkandGPS();
+        checkFirstRun();
 
-       // Intent intent = new Intent(this, SensorListenerService.class);
+        // Intent intent = new Intent(this, SensorListenerService.class);
        // startService(intent);
     }
 
@@ -194,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     public void clickImage_rate_this_place(View view) {
 
         Intent intent = new Intent(this, RateThisPlaceActivity.class);
-        intent.putExtra("From","MainActivity");
+        intent.putExtra("From", "MainActivity");
         startActivity(intent);
 
     }
@@ -206,91 +199,21 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
 
         if (DoesUserAgree){
-            // Place your dialog code here to display the dialog
 
             Log.i(FirstRun_TAG, "User  agree");
-            ReadGoogleAccount();
-            startService(new Intent(this, GeofencingService.class));
-            Commonfunctions.setSensingAlarm(this);
+            ((TextView)findViewById(R.id.textView_UserID)).setText("UserID: " + this.getSharedPreferences("UserInfo", this.MODE_PRIVATE).getString("UserID", null));
+            checkNetworkandGPS();
 
-
-            //listen to wifi connection availability
-            IntentFilter wififilter = new IntentFilter();
-            wififilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-            //wififilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
-            WifiBroadcastReceiver mwifiReceiver = new WifiBroadcastReceiver(this);
-            registerReceiver(mwifiReceiver, wififilter);
         }
         else{
             Log.i(FirstRun_TAG, "User have not agree yet");
-            UserAgreementDialogFragment UserAgreement = new UserAgreementDialogFragment();;
+            UserAgreementDialogFragment UserAgreement = new UserAgreementDialogFragment();
             UserAgreement.show(getSupportFragmentManager(), "NoticeDialogFragment");
         }
-    }
-
-    public void ReadGoogleAccount() {
-
-        Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
-        String possibleEmail = null;
-        Account[] accounts = AccountManager.get(this).getAccounts();
-        for (Account account : accounts) {
-            if (emailPattern.matcher(account.name).matches()) {
-                possibleEmail = account.name;
-                Log.i("GoogleAccount", possibleEmail);
-            }
-        }
-
-        String uniqueUserID=possibleEmail+"_"+getUniqueHardwareID();
-
-        this.getSharedPreferences("UserInfo", this.MODE_PRIVATE)
-                .edit()
-                .putString("UserID",uniqueUserID)
-                .apply();
-
-       ((TextView)findViewById(R.id.textView_UserID)).setText("UserID: "+this.getSharedPreferences("UserInfo", this.MODE_PRIVATE).getString("UserID", null));
 
     }
 
-    public String getUniqueHardwareID(){
-        WifiManager wifiMan = (WifiManager) this.getSystemService(
-                Context.WIFI_SERVICE);
-        WifiInfo wifiInf = wifiMan.getConnectionInfo();
-        String wifimacAddr = wifiInf.getMacAddress();
-        if (wifimacAddr != null){
-            return "wifi_"+wifimacAddr;
-        }
-        else {
-            BluetoothAdapter myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-            if (myBluetoothAdapter!=null){
-                String bluetoothmacAddr = myBluetoothAdapter.getAddress();
-                if (bluetoothmacAddr!=null){
-                    return "Blue_"+bluetoothmacAddr;
-                }
-                else{
-                    String android_id = Secure.getString(this.getContentResolver(),
-                            Secure.ANDROID_ID);
-                    if (android_id!=null){
-                        return "Aid_"+android_id;
-                    }
-                    else{
-                        return "no_available_hardwareID";
 
-                    }
-                }
-            }
-            else{
-                String android_id = Secure.getString(this.getContentResolver(),
-                        Secure.ANDROID_ID);
-                if (android_id!=null){
-                    return "Aid_"+android_id;
-                }
-                else{
-                    return "no_available_hardwareID";
-
-                }
-            }
-        }
-    }
 
 
     public void checkNetworkandGPS()

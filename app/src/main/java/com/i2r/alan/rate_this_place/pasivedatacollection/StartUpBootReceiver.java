@@ -6,6 +6,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.i2r.alan.rate_this_place.utility.Commonfunctions;
+
 import java.util.Calendar;
 
 /**
@@ -17,10 +19,7 @@ public class StartUpBootReceiver  extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         if ("android.intent.action.BOOT_COMPLETED".equals(intent.getAction())) {
-
-            Intent startServiceIntent = new Intent(context, SensorListenerService.class);
-            context.startService(startServiceIntent);
-
+            Commonfunctions.setSensingAlarm(context);
         }
     }
 
