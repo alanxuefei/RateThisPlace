@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "FeedReader.db";
 
     private static final String TEXT_TYPE = " TEXT";
@@ -18,7 +18,8 @@ public class DBHelper extends SQLiteOpenHelper {
                     DBContract.FeedEntry.COLUMN_NAME_TIME + TEXT_TYPE + COMMA_SEP +
                     DBContract.FeedEntry.COLUMN_LOCATION_NAME + TEXT_TYPE + COMMA_SEP +
                     DBContract.FeedEntry.COLUMN_LOCATION_LATITUDE + REAL_TYPE + COMMA_SEP +
-                    DBContract.FeedEntry.COLUMN_LOCATION_LONGITUDE + REAL_TYPE  +" )";
+                    DBContract.FeedEntry.COLUMN_LOCATION_LONGITUDE + REAL_TYPE  + COMMA_SEP +
+                    DBContract.FeedEntry.COLUMN_RATING_STATUS + TEXT_TYPE +" )";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + DBContract.FeedEntry.TABLE_NAME;

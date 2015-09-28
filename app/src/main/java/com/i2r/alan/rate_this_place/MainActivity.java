@@ -203,6 +203,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             Log.i(FirstRun_TAG, "User  agree");
             ((TextView)findViewById(R.id.textView_UserID)).setText("UserID: " + this.getSharedPreferences("UserInfo", this.MODE_PRIVATE).getString("UserID", null));
             checkNetworkandGPS();
+            Commonfunctions.setSensingAlarm(this);
 
         }
         else{

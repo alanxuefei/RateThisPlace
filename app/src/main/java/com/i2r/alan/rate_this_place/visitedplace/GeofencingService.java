@@ -8,6 +8,7 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.i2r.alan.rate_this_place.utility.Commonfunctions;
 import com.i2r.alan.rate_this_place.utility.Constants;
 
 import com.google.android.gms.common.ConnectionResult;

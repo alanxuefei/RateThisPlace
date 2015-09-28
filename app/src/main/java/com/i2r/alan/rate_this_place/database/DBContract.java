@@ -22,5 +22,6 @@ public final class DBContract {
         public static final String COLUMN_LOCATION_NAME = "locationname";
         public static final String COLUMN_LOCATION_LATITUDE = "latitude";
         public static final String COLUMN_LOCATION_LONGITUDE = "longitude";
+        public static final String COLUMN_RATING_STATUS = "rating_status";
     }
 }

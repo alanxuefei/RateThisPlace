@@ -366,7 +366,8 @@
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="135dp">
+                    android:layout_height="135dp"
+                    android:weightSum="1">
 
                     <CheckBox
                         android:layout_width="30dp"
@@ -396,56 +397,80 @@
                                     android:id="@+id/textView12"
                                     android:onClick="clickImage_activity3" />
                             </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:paddingTop="10dp"
+                        android:paddingLeft="10dp"
+                        android:weightSum="1"
+                        android:layout_weight="0.13">
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4.54">
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="126dp"
+                                android:layout_height="75dp">
+
+                                <CheckBox
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:id="@+id/checkBox10"
+                                    android:checked="false" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:text="Other:"
+                                    android:id="@+id/textView15"
+                                    android:paddingRight="5dp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:weightSum="1">
+
+                                <EditText
+                                    android:layout_width="55dp"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="textMultiLine"
+                                    android:ems="10"
+                                    android:id="@+id/Edit_Activity_Others"
+                                    android:lines="1"
+                                    android:hint=""
+
+                                    android:imeActionLabel="Done"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_weight="1.38" />
+
+                                <Button
+                                    style="?android:attr/buttonStyleSmall"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Done"
+                                    android:id="@+id/button_editdone"
+
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignRight="@+id/Edit_Activity_Others"
+                                    android:layout_alignEnd="@+id/Edit_Activity_Others"
+                                    android:visibility="invisible" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
                 </LinearLayout>
 
 
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingTop="10dp"
-                android:paddingLeft="10dp">
-
-                <CheckBox
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:id="@+id/checkBox10"
-                    android:checked="false" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Other:"
-                    android:id="@+id/textView15"
-                    android:paddingRight="5dp" />
-
-                <EditText
-                    android:layout_width="158dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
-                    android:ems="10"
-                    android:id="@+id/Edit_Activity_Others"
-                    android:lines="1"
-                    android:hint=""
-
-                    android:imeActionLabel="Done"
-                    android:layout_alignParentBottom="true" />
-
-                <Button
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Done"
-                    android:id="@+id/button_editdone"
-
-                    android:layout_alignParentTop="true"
-                    android:layout_alignRight="@+id/Edit_Activity_Others"
-                    android:layout_alignEnd="@+id/Edit_Activity_Others"
-                    android:visibility="invisible" />
 
             </LinearLayout>
 

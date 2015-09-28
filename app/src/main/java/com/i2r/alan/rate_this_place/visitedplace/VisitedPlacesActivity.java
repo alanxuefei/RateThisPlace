@@ -91,9 +91,7 @@ public class VisitedPlacesActivity extends AppCompatActivity {
        String value = (String)a.getItemAtPosition(position);
         Log.i(HumanActivityTAG, value);
 
-        Intent startRatingIntent = new Intent(this, RateThisPlaceActivity.class);
-        startRatingIntent.putExtra("From","VisitedPlacesActivity");
-        startRatingIntent.putExtra("TheLocation", value.split(" ")[1]);
+        Intent startRatingIntent = new Intent(this,  RateThisPlaceFromVistitedplaceActivity.class);
         startActivity(startRatingIntent);
 
 
@@ -134,22 +132,23 @@ public class VisitedPlacesActivity extends AppCompatActivity {
                 null                                 // The sort order
         );
 
-        c.moveToFirst();
-        while (!c.isLast()){
-            String vLOCATION_NAME = c.getString(
-                    c.getColumnIndexOrThrow(DBContract.FeedEntry.COLUMN_LOCATION_NAME)
-            );
 
-            String  vTIME = c.getString(
-                    c.getColumnIndexOrThrow(DBContract.FeedEntry.COLUMN_NAME_TIME)
-            );
+        Boolean rowExists=c.moveToFirst();
+        if (rowExists){
+            while (!c.isLast()) {
+                String vLOCATION_NAME = c.getString(
+                        c.getColumnIndexOrThrow(DBContract.FeedEntry.COLUMN_LOCATION_NAME)
+                );
 
-            VisitedPlaceList.add(vTIME+" "+vLOCATION_NAME);
-            c.moveToNext();
+                String vTIME = c.getString(
+                        c.getColumnIndexOrThrow(DBContract.FeedEntry.COLUMN_NAME_TIME)
+                );
 
+                VisitedPlaceList.add(vTIME + "\r\n" + vLOCATION_NAME);
+                c.moveToNext();
+
+            }
         }
-        db.close();
-        mDbHelper.close();
 
     }
 }

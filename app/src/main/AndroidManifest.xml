@@ -88,14 +88,33 @@
             android:label="@string/title_activity_rate_this_place"
             android:screenOrientation="portrait" >
         </activity>
+
+        <activity
+            android:name=".visitedplace.RateThisPlaceFromVistitedplaceActivity"
+            android:label="@string/title_activity_rate_this_place"
+            android:screenOrientation="portrait" >
+        </activity>
+
         <activity
             android:name=".ratethisplace.RateThisPlaceRatingActivity"
             android:label="@string/title_activity_rate_this_place" >
         </activity>
+
+        <activity
+            android:name=".visitedplace.RateThisPlaceRatingFromVisitedPlacesActivity"
+            android:label="@string/title_activity_rate_this_place" >
+        </activity>
+
         <activity
             android:name=".ratethisplace.RateThisPlaceActivityActivity"
             android:label="@string/title_activity_rate_this_place" >
         </activity>
+
+        <activity
+            android:name=".visitedplace.RateThisPlaceActivityFromVisitedPlaceActivity"
+            android:label="@string/title_activity_rate_this_place" >
+        </activity>
+
         <activity
             android:name=".mapview.MapsActivity"
             android:label="@string/title_activity_maps"

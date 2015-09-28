@@ -227,6 +227,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
         values.put(DBContract.FeedEntry.COLUMN_LOCATION_NAME, LocationName);
         values.put(DBContract.FeedEntry.COLUMN_LOCATION_LATITUDE, detectedlocation_LatLng.latitude);
         values.put(DBContract.FeedEntry.COLUMN_LOCATION_LONGITUDE,detectedlocation_LatLng.longitude);
+        values.put(DBContract.FeedEntry.COLUMN_RATING_STATUS,"unrated");
 
         // Insert the new row, returning the primary key value of the new row
         long newRowId;

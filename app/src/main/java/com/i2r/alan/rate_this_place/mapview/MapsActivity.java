@@ -47,7 +47,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.i2r.alan.rate_this_place.R.layout.activity_maps);
-        checkNetworkandGPS();
 
              /*location */
         // Acquire a reference to the system Location Manager
@@ -74,7 +73,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     /**
-     * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
+     * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctlyde
      * installed) and the map has not already been instantiated.. This will ensure that we only ever
      * call {@link #setUpMap()} once when {@link #mMap} is not null.
      * <p/>
@@ -221,63 +220,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         startActivity(intent);
 
     }
-
-
-    public void checkFirstRun() {
-        boolean DoesUserAgree = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("DoesUserAgree", false);
-
-        if (DoesUserAgree){
-            // Place your dialog code here to display the dialog
-
-            Log.i(FirstRun_TAG, "User  agree");
-            Intent intent = new Intent(this, SensorListenerService.class);
-            startService(intent);
-        }
-        else{
-            Log.i(FirstRun_TAG, "User have not agree yet");
-            UserAgreementDialogFragment UserAgreement = new UserAgreementDialogFragment();;
-            UserAgreement.show(getSupportFragmentManager(), "NoticeDialogFragment");
-        }
-    }
-    public void checkNetworkandGPS()
-    {
-
-        final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
-
-        if (manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
-            Log.i(GPS_Internet_Check_TAG, "GPS Yes");
-            if (isConnectingToInternet())
-            {
-                ((TextView)findViewById(com.i2r.alan.rate_this_place.R.id.textView_status)).setVisibility(View.GONE);
-                Log.i(GPS_Internet_Check_TAG, "internet Yes");
-
-            }
-            else{
-                ((TextView)findViewById(com.i2r.alan.rate_this_place.R.id.textView_status)).setText("Internet is not available");
-
-                Log.i(GPS_Internet_Check_TAG, "internet No");
-            }
-        }
-        else{
-
-            Log.i(GPS_Internet_Check_TAG, "GPS No");
-            if (isConnectingToInternet())
-            {
-                ((TextView)findViewById(com.i2r.alan.rate_this_place.R.id.textView_status)).setText("GPS is off");
-                Log.i(GPS_Internet_Check_TAG, "internet Yes");
-            }
-            else{
-                ((TextView)findViewById(com.i2r.alan.rate_this_place.R.id.textView_status)).setText("Internet is not available and GPS is off");
-
-                Log.i(GPS_Internet_Check_TAG, "internet No");
-            }
-
-        }
-
-
-    }
-
-
 
 
      /*location*/
