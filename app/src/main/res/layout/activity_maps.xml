@@ -48,6 +48,13 @@
         tools:context="com.i2r.alan.rate_this_place.mapview.MapsActivity"
         android:name="com.google.android.gms.maps.SupportMapFragment" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textView_status"
+            android:layout_gravity="left|top" />
+
     </FrameLayout>
 
 

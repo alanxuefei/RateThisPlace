@@ -256,6 +256,50 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/editboxborader">
+
+            <EditText
+                android:layout_width="179dp"
+                android:layout_height="60dp"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:id="@+id/AutoCompleteTextView_Commentary"
+                android:lines="3"
+                android:hint="Write a comment..."
+                android:imeOptions="actionDone"
+                android:layout_marginTop="15dp"
+                android:layout_toLeftOf="@+id/imageView5"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Done"
+                android:id="@+id/button_editdone"
+                android:layout_alignRight="@+id/AutoCompleteTextView_Commentary"
+                android:layout_alignEnd="@+id/AutoCompleteTextView_Commentary"
+                android:layout_alignParentRight="@+id/AutoCompleteTextView_Commentary"
+                android:visibility="gone" />
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ratingcamera"
+                android:id="@+id/imageView5"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="10dp"
+                android:onClick="dispatchTakePictureIntent" />
+        </LinearLayout>
+
+
         <Button
             android:layout_width="278dp"
             android:layout_height="wrap_content"

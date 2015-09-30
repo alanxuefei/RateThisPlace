@@ -94,7 +94,7 @@ public class RateThisPlaceFromVistitedplaceActivity extends TabActivity implemen
     @Override
     protected void onResume() {
         super.onResume();
-        new AsyncTaskGetDataToMyRewardBar(this, (ProgressBar) findViewById(R.id.progressBar_rewards), (TextView) findViewById(R.id.textView_Rewards), (ImageView)findViewById(R.id.imageView_rewards1),
+        new AsyncTaskGetDataToMyRewardBar(this,(ImageView)findViewById(R.id.imageView_rewards1),
                 (ImageView)findViewById(R.id.imageView_rewards2),(ImageView)findViewById(R.id.imageView_rewards3),
                 (ImageView)findViewById(R.id.imageView_rewards4),(ProgressBar)findViewById(R.id.progressBar_rewards),(TextView)findViewById(R.id.textView_Rewards)).execute();
     }

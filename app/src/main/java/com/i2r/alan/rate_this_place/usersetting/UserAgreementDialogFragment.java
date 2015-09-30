@@ -45,7 +45,6 @@ public class UserAgreementDialogFragment extends DialogFragment {
                                 .apply();
 
                         ReadGoogleAccount();
-
                         Commonfunctions.setSensingAlarm(getActivity());
 
                     }
@@ -83,6 +82,8 @@ public class UserAgreementDialogFragment extends DialogFragment {
                 .edit()
                 .putString("UserID",uniqueUserID)
                 .apply();
+
+
 
     }
 

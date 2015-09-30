@@ -43,6 +43,9 @@ public class RateThisPlaceRatingActivity extends AppCompatActivity  {
 
     /*google activity detection*/
 
+    String mAddressOutput;
+    private Location mLastLocation=new Location("");
+
     private enum Mood { NOFEELING, HAPPY, UNHAPPY}
 
     private Mood  usermood =Mood.NOFEELING;
@@ -55,9 +58,9 @@ public class RateThisPlaceRatingActivity extends AppCompatActivity  {
         setContentView(com.i2r.alan.rate_this_place.R.layout.activity_rating);
 
 
-       // final EditText mAutoCompleteTextView_Commentary= (EditText) findViewById(com.i2r.alan.rate_this_place.R.id.AutoCompleteTextView_Commentary);
+        final EditText mAutoCompleteTextView_Commentary= (EditText) findViewById(com.i2r.alan.rate_this_place.R.id.AutoCompleteTextView_Commentary);
 
-  /*      mAutoCompleteTextView_Commentary.addTextChangedListener(new TextWatcher() {
+        mAutoCompleteTextView_Commentary.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -92,9 +95,7 @@ public class RateThisPlaceRatingActivity extends AppCompatActivity  {
             }
 
 
-        });*/
-
-        addListenerOnRatingBar();
+        });
     }
 
 
@@ -226,7 +227,7 @@ public class RateThisPlaceRatingActivity extends AppCompatActivity  {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = this.getSharedPreferences("UserInfo", this.MODE_PRIVATE).getString("UserID", null)
-                + "_"+timeStamp + "_Lat_"+globalvariable.thelocation.getLatitude()+"_Lon_"+globalvariable.thelocation.getLongitude()+"_"+globalvariable.thelocation.getProvider()+"_";
+                + "_"+timeStamp + "_Lat_"+mLastLocation.getLatitude()+"_Lon_"+mLastLocation.getLongitude()+"_"+mLastLocation.getProvider()+"_";
         File storageDir = new File(Environment.getExternalStorageDirectory() + "/" + "RateThisPlace" + "/" + "ActiveData/");
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
@@ -275,7 +276,7 @@ public class RateThisPlaceRatingActivity extends AppCompatActivity  {
                 JsonGenerator_rating.put("PictureURL", "NoPhoto");
             }
 
-           // JsonGenerator_rating.put("Commentary", ((EditText) findViewById(com.i2r.alan.rate_this_place.R.id.AutoCompleteTextView_Commentary)).getText().toString());
+            JsonGenerator_rating.put("Commentary", ((EditText) findViewById(com.i2r.alan.rate_this_place.R.id.AutoCompleteTextView_Commentary)).getText().toString());
             Log.i("JSON", JsonGenerator_rating.toString());
         } catch (JSONException e) {
             e.printStackTrace();

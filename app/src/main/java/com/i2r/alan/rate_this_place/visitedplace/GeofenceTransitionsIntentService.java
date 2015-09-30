@@ -211,15 +211,12 @@ public class GeofenceTransitionsIntentService extends IntentService {
     private void addDB(String LocationName) {
                         /*my code*/
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd");
         String currentDate = sdf.format(new Date());
         sdf = new SimpleDateFormat("HH:mm:ss");
         String currentTime = sdf.format(new Date());
-        this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).edit().putString(LocationName + "DateTime", currentDate + "\n" + currentTime).apply();
-        this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).edit().putString(LocationName+"RatingStatus", "NA").apply();
-        this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).edit().putString(LocationName+"ActivityStatus", "NA").apply();
         DBHelper mDbHelper = new DBHelper(this);
-        LatLng  detectedlocation_LatLng = Constants.AREA_LANDMARKS.get(LocationName);
+        LatLng  detectedlocation_LatLng = Constants.BAY_AREA_LANDMARKS.get(LocationName);
         // Gets the data repository in write mode
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 

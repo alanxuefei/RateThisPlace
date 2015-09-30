@@ -71,6 +71,10 @@
 
         <service android:name=".pasivedatacollection.SensorListenerService" />
         <service
+            android:name=".ratethisplace.FetchAddressIntentService"
+            android:exported="false" >
+        </service>
+        <service
             android:name=".ratethisplace.IntentServiceFTP"
             android:exported="false" >
         </service>
