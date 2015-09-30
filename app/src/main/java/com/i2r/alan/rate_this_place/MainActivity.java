@@ -29,6 +29,7 @@ import com.i2r.alan.rate_this_place.myrewards.MyRewardActivity;
 import com.i2r.alan.rate_this_place.pasivedatacollection.PassiveDataToFTPIntentService;
 import com.i2r.alan.rate_this_place.ratethisplace.RateThisPlaceActivity;
 import com.i2r.alan.rate_this_place.usersetting.UserAgreementDialogFragment;
+import com.i2r.alan.rate_this_place.usersetting.UserProfileActivity;
 import com.i2r.alan.rate_this_place.utility.Commonfunctions;
 import com.i2r.alan.rate_this_place.utility.Constants;
 import com.i2r.alan.rate_this_place.utility.DataLogger;
@@ -288,7 +289,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
                 break;
             case R.id.action_userprofile:
-               // startActivity(new Intent(this, UserProfileActivity.class));
+                startActivity(new Intent(this, UserProfileActivity.class));
                 break;
             case R.id.action_aboutus:
 

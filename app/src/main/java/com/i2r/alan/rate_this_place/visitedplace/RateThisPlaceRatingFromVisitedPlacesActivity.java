@@ -24,10 +24,8 @@ import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.i2r.alan.rate_this_place.R;
 import com.i2r.alan.rate_this_place.ratethisplace.AsyncTaskUploadRating;
-import com.i2r.alan.rate_this_place.utility.Constants;
 import com.i2r.alan.rate_this_place.utility.globalvariable;
 
 import org.json.JSONException;
@@ -44,21 +42,61 @@ public class RateThisPlaceRatingFromVisitedPlacesActivity extends AppCompatActiv
 
     /*google activity detection*/
 
-
+    String mAddressOutput;
+    private Location mLastLocation=new Location("");
 
     private enum Mood { NOFEELING, HAPPY, UNHAPPY}
 
     private Mood  usermood = Mood.NOFEELING;
-    public static String Locationname1;
+    String Locationname;
 
-
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating_fromvisitedplaces);
         addListenerOnRatingBar();
         Intent intent = getIntent();
-        Locationname1 = intent.getStringExtra("From");
+        Locationname = intent.getStringExtra("From");
+
+      //  final EditText mAutoCompleteTextView_Commentary= (EditText) findViewById(com.i2r.alan.rate_this_place.R.id.AutoCompleteTextView_Commentary);
+/*
+       mAutoCompleteTextView_Commentary.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            public void afterTextChanged(Editable s) {
+
+                // you can call or do what you want with your EditText here
+                final Button mbutton_editdone = (Button) findViewById(com.i2r.alan.rate_this_place.R.id.button_editdone);
+                mbutton_editdone.setVisibility(View.VISIBLE);
+                mbutton_editdone.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+
+                    public void onClick(View view) {
+
+
+                        mbutton_editdone.setVisibility(View.GONE);
+                        //release the focus
+                        InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    }
+
+                });
+
+            }
+
+
+        });*/
     }
 
 
@@ -68,12 +106,6 @@ public class RateThisPlaceRatingFromVisitedPlacesActivity extends AppCompatActiv
         // Inflate the menu; this adds items to the action bar if it is present.
          getMenuInflater().inflate(com.i2r.alan.rate_this_place.R.menu.rate_this_place_menu_main, menu);
         return true;
-    }
-
-    public void ReturnButton(View v) {
-        Log.i("test", "returen");
-        super.onBackPressed();
-
     }
 
     @Override
@@ -173,12 +205,12 @@ public class RateThisPlaceRatingFromVisitedPlacesActivity extends AppCompatActiv
         String timestamp = datetimeformat.format(new Date());
         JSONObject JsonGenerator_rating = new JSONObject();
         JSONObject JsonGenerator_rating_location = new JSONObject();
-        double VratingBarCLEANNESS= ((RatingBar) findViewById(R.id.ratingBarCLEANNESS)).getRating();
-        double VratingBarSAFTY= ((RatingBar) findViewById(R.id.ratingBarSAFTY)).getRating();
-        double VratingBarBEAUTIFULNESS= ((RatingBar) findViewById(R.id.ratingBarBEAUTIFULNESS)).getRating();
-        double VratingBarFRIENDLINESS= ((RatingBar) findViewById(R.id.ratingBarFRIENDLINESS)).getRating();
-        double VratingBarCONVENIENCE= ((RatingBar) findViewById(R.id.ratingBarCONVENIENCE)).getRating();
-        double VratingBarGREENNESS= ((RatingBar) findViewById(R.id.ratingBarGREENNESS)).getRating();
+        double VratingBarCLEANNESS= ((RatingBar) findViewById(com.i2r.alan.rate_this_place.R.id.ratingBarCLEANNESS)).getRating();
+        double VratingBarSAFTY= ((RatingBar) findViewById(com.i2r.alan.rate_this_place.R.id.ratingBarSAFTY)).getRating();
+        double VratingBarBEAUTIFULNESS= ((RatingBar) findViewById(com.i2r.alan.rate_this_place.R.id.ratingBarBEAUTIFULNESS)).getRating();
+        double VratingBarFRIENDLINESS= ((RatingBar) findViewById(com.i2r.alan.rate_this_place.R.id.ratingBarFRIENDLINESS)).getRating();
+        double VratingBarCONVENIENCE= ((RatingBar) findViewById(com.i2r.alan.rate_this_place.R.id.ratingBarCONVENIENCE)).getRating();
+        double VratingBarGREENNESS= ((RatingBar) findViewById(com.i2r.alan.rate_this_place.R.id.ratingBarGREENNESS)).getRating();
 
         int usedratingbar=0;
         if (VratingBarCLEANNESS!=0)usedratingbar++;
@@ -200,12 +232,12 @@ public class RateThisPlaceRatingFromVisitedPlacesActivity extends AppCompatActiv
 
 
             JsonGenerator_rating.put("Nickname", PreferenceManager.getDefaultSharedPreferences(this).getString("display_name", ""));
-
-
-            LatLng detectedlocation_LatLng = Constants.AREA_LANDMARKS.get(Locationname1);
-            JsonGenerator_rating_location.put("longitude",detectedlocation_LatLng.longitude);
-            JsonGenerator_rating_location.put("latitude", detectedlocation_LatLng.latitude);
-
+            if (globalvariable.thelocation==null){
+                JsonGenerator_rating_location =null;}
+            else {
+                JsonGenerator_rating_location.put("longitude",globalvariable.thelocation.getLongitude());
+                JsonGenerator_rating_location.put("latitude", globalvariable.thelocation.getLatitude());
+            }
 
             JsonGenerator_rating.put("Datatime", timestamp);
             JsonGenerator_rating.put("Location", JsonGenerator_rating_location);
@@ -228,10 +260,8 @@ public class RateThisPlaceRatingFromVisitedPlacesActivity extends AppCompatActiv
         AsyncTaskUploadRatingFromVisitedPlace myfileuploader = new AsyncTaskUploadRatingFromVisitedPlace(this,JsonGenerator_rating);
         myfileuploader.execute();
 
-        this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).edit().putString(Locationname1+"RatingStatus", df.format(avgrating)).apply();
-
-
-        Log.i("VisitedPlace", Locationname1+"RatingStatus");
+        this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).edit().putString(Locationname+"RatingStatus", df.format(avgrating)).apply();
+        Log.i("VisitedPlace", Locationname+"RatingStatus");
 
 
     }

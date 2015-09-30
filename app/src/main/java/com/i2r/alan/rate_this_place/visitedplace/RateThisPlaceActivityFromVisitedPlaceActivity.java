@@ -26,7 +26,6 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.maps.model.LatLng;
 import com.i2r.alan.rate_this_place.R;
 import com.i2r.alan.rate_this_place.ratethisplace.AsyncTaskUploadActivity;
 import com.i2r.alan.rate_this_place.utility.Constants;
@@ -291,11 +290,7 @@ public class RateThisPlaceActivityFromVisitedPlaceActivity extends AppCompatActi
     }
 
 
-    public void ReturnButton(View v) {
-        Log.i("test", "returen");
-        super.onBackPressed();
 
-    }
 
 
 
@@ -305,16 +300,18 @@ public class RateThisPlaceActivityFromVisitedPlaceActivity extends AppCompatActi
         SimpleDateFormat datetimeformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String timestamp = datetimeformat.format(new Date());
         JSONObject JsonGenerator_activity = new JSONObject();
-        JSONObject JsonGenerator_activity_location = new JSONObject();
+        JSONObject JsonGenerator_basicrating_location = new JSONObject();
         String Activities="";
         try {
             JsonGenerator_activity.put("UserID", this.getSharedPreferences("UserInfo", this.MODE_PRIVATE).getString("UserID", null));
             JsonGenerator_activity.put("Nickname", PreferenceManager.getDefaultSharedPreferences(this).getString("display_name", ""));
-            LatLng detectedlocation_LatLng = Constants.AREA_LANDMARKS.get(Locationname);
-            JsonGenerator_activity_location.put("longitude",detectedlocation_LatLng.longitude);
-            JsonGenerator_activity_location.put("latitude", detectedlocation_LatLng.latitude);
+            if (globalvariable.thelocation==null){JsonGenerator_basicrating_location=null;}
+            else {
+                JsonGenerator_basicrating_location.put("longitude", globalvariable.thelocation.getLongitude());
+                JsonGenerator_basicrating_location.put("latitude",globalvariable.thelocation.getLatitude());
+            }
             JsonGenerator_activity.put("Datatime", timestamp);
-            JsonGenerator_activity.put("Location", JsonGenerator_activity_location);
+            JsonGenerator_activity.put("Location", JsonGenerator_basicrating_location);
             JsonGenerator_activity.put("AloneGroup", AloneGroup.toString());
 
             if (((CheckBox) findViewById(com.i2r.alan.rate_this_place.R.id.checkBox1)).isChecked()) Activities=Activities+"Playing_";

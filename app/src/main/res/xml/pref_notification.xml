@@ -1,4 +1,9 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+
+        android:title="@string/pref_header_data_sync"
+        android:key="pref_key_storage_settings">
+
 
     <!-- A 'parent' preference, which enables/disables child preferences (below)
          when checked/unchecked. -->
@@ -23,5 +28,5 @@
         android:key="notifications_new_message_vibrate"
         android:title="@string/pref_title_vibrate"
         android:defaultValue="true" />
-
+    </PreferenceCategory>
 </PreferenceScreen>

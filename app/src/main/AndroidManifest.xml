@@ -84,27 +84,33 @@
             android:label="@string/title_activity_rate_this_place"
             android:screenOrientation="portrait" >
         </activity>
+
         <activity
             android:name=".visitedplace.RateThisPlaceFromVistitedplaceActivity"
             android:label="@string/title_activity_rate_this_place"
             android:screenOrientation="portrait" >
         </activity>
+
         <activity
             android:name=".ratethisplace.RateThisPlaceRatingActivity"
             android:label="@string/title_activity_rate_this_place" >
         </activity>
+
         <activity
             android:name=".visitedplace.RateThisPlaceRatingFromVisitedPlacesActivity"
             android:label="@string/title_activity_rate_this_place" >
         </activity>
+
         <activity
             android:name=".ratethisplace.RateThisPlaceActivityActivity"
             android:label="@string/title_activity_rate_this_place" >
         </activity>
+
         <activity
             android:name=".visitedplace.RateThisPlaceActivityFromVisitedPlaceActivity"
             android:label="@string/title_activity_rate_this_place" >
         </activity>
+
         <activity
             android:name=".mapview.MapsActivity"
             android:label="@string/title_activity_maps"
@@ -120,6 +126,11 @@
             android:label="VisitedPlacesActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".usersetting.UserProfileActivity"
+            android:label="@string/title_activity_user_profile"
+            android:screenOrientation="portrait" >
+        </activity>
 
         <service
             android:name=".visitedplace.GeofenceTransitionsIntentService"
@@ -132,11 +143,6 @@
             android:enabled="true"
             android:exported="true" >
         </service>
-
-        <activity
-            android:name=".usersetting.SettingsActivity"
-            android:label="@string/title_activity_settings" >
-        </activity>
     </application>
 
 </manifest>

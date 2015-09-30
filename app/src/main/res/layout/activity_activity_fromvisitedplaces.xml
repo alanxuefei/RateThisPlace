@@ -11,7 +11,8 @@
         android:background="#FFFFFF"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true">
+        android:clickable="true"
+        android:onClick="ReturnButton">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -117,8 +118,7 @@
                 android:paddingRight="10dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:onClick="ReturnButton"/>
+                android:layout_alignParentEnd="true" />
 
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
