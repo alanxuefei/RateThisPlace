@@ -19,26 +19,22 @@ package com.i2r.alan.rate_this_place.visitedplace;
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.i2r.alan.rate_this_place.database.DBContract;
-import com.i2r.alan.rate_this_place.database.DBHelper;
-import com.i2r.alan.rate_this_place.utility.Constants;
-import com.i2r.alan.rate_this_place.utility.DataLogger;
-import com.i2r.alan.rate_this_place.MainActivity;
-
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
+import com.i2r.alan.rate_this_place.MainActivity;
+import com.i2r.alan.rate_this_place.utility.DataLogger;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -102,8 +98,12 @@ public class GeofenceTransitionsIntentService extends IntentService {
                     triggeringGeofences
             );
 
-            // Send notification and log the transition details.
-            sendNotification(geofenceTransitionDetails);
+
+
+
+            if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("notifications_new_message", true)){
+                sendNotification(geofenceTransitionDetails);
+            }
 
 
 
@@ -211,32 +211,14 @@ public class GeofenceTransitionsIntentService extends IntentService {
     private void addDB(String LocationName) {
                         /*my code*/
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String currentDate = sdf.format(new Date());
         sdf = new SimpleDateFormat("HH:mm:ss");
         String currentTime = sdf.format(new Date());
-        DBHelper mDbHelper = new DBHelper(this);
-        LatLng  detectedlocation_LatLng = Constants.BAY_AREA_LANDMARKS.get(LocationName);
-        // Gets the data repository in write mode
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).edit().putString(LocationName + "DateTime", currentDate + "\n" + currentTime).apply();
+        this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).edit().putString(LocationName+"RatingStatus", "NA").apply();
+        this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).edit().putString(LocationName+"ActivityStatus", "NA").apply();
 
-        // Create a new map of values, where column names are the keys
-        ContentValues values = new ContentValues();
-        values.put(DBContract.FeedEntry.COLUMN_NAME_DATE, currentDate);
-        values.put(DBContract.FeedEntry.COLUMN_NAME_TIME, currentTime);
-        values.put(DBContract.FeedEntry.COLUMN_LOCATION_NAME, LocationName);
-        values.put(DBContract.FeedEntry.COLUMN_LOCATION_LATITUDE, detectedlocation_LatLng.latitude);
-        values.put(DBContract.FeedEntry.COLUMN_LOCATION_LONGITUDE,detectedlocation_LatLng.longitude);
-        values.put(DBContract.FeedEntry.COLUMN_RATING_STATUS,"unrated");
 
-        // Insert the new row, returning the primary key value of the new row
-        long newRowId;
-        newRowId = db.insert(
-                DBContract.FeedEntry.TABLE_NAME,
-                null,
-                values);
-        Log.e(TAG, "geo insert"+newRowId);
-        db.close();
-        mDbHelper.close();
     }
 }

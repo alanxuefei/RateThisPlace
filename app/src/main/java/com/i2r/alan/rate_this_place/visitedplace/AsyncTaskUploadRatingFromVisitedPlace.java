@@ -1,9 +1,13 @@
-package com.i2r.alan.rate_this_place.ratethisplace;
+package com.i2r.alan.rate_this_place.visitedplace;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.i2r.alan.rate_this_place.utility.DataLogger;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
@@ -11,48 +15,59 @@ import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.net.io.CopyStreamEvent;
 import org.apache.commons.net.io.CopyStreamListener;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
 import java.net.SocketException;
+import java.net.URL;
 import java.net.UnknownHostException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 /**
  * Created by Xue Fei on 1/7/2015.
  */
 
-public class AsyncTaskUploadFilesToFTP extends AsyncTask {
+public class AsyncTaskUploadRatingFromVisitedPlace extends AsyncTask {
     private Context context;
-    private String UserID;
+    String userid;
     protected static final String FTP_TAG = "FTP";
-    JSONObject JsonGenerator_basicrating;
+    JSONObject JsonGenerator_rating;
 
 
 
-    public AsyncTaskUploadFilesToFTP(Context context,JSONObject JsonGenerator_basicrating0) {
+
+    public AsyncTaskUploadRatingFromVisitedPlace(Context context, JSONObject JsonGenerator_rating0) {
         super();
         this.context=context;
-        this.JsonGenerator_basicrating=JsonGenerator_basicrating0;
+        this.JsonGenerator_rating =JsonGenerator_rating0;
+
     }
 
+    ProgressDialog barProgressDialog;
 
     @Override
     protected void onPreExecute() {
+        barProgressDialog = new ProgressDialog(context);
+        barProgressDialog.setTitle("Uploading");
+        barProgressDialog.setMessage("Upload in progress ...");
+        barProgressDialog.setProgressStyle(barProgressDialog.STYLE_HORIZONTAL);
+
+        barProgressDialog.setProgress(0);
+        barProgressDialog.setMax(10);
+        barProgressDialog.show();
+
+
         super.onPreExecute();
-        UserID= context.getSharedPreferences("UserInfo", context.MODE_PRIVATE)
-                .getString("UserID", "");
-        Log.e(FTP_TAG, UserID);
-
-
+        userid=context.getSharedPreferences("UserInfo", context.MODE_PRIVATE).getString("UserID","unknown");
     }
 
 
@@ -61,8 +76,13 @@ public class AsyncTaskUploadFilesToFTP extends AsyncTask {
 
 
 
+        try {
+            UploadRatingtoServer(JsonGenerator_rating);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        connnectingwithFTP();
+
 
         return null;
     }
@@ -72,7 +92,8 @@ public class AsyncTaskUploadFilesToFTP extends AsyncTask {
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
         Toast.makeText(this.context, "File is uploaded successfully", Toast.LENGTH_SHORT).show();
-
+        barProgressDialog.dismiss();
+        context.startActivity(new Intent(context, VisitedPlacesActivity.class));
     }
 
 
@@ -120,34 +141,20 @@ public class AsyncTaskUploadFilesToFTP extends AsyncTask {
             e.printStackTrace();
         }
 
+
         try {
-
-
-            boolean existing =mFtpClient.changeWorkingDirectory(context.getSharedPreferences("UserInfo", context.MODE_PRIVATE).getString("UserID", null));
-            if (existing) {
-                Log.e("FTP", "can");
+            if (mFtpClient.changeWorkingDirectory("/"+userid)){
             }
             else{
-                Log.e("FTP", "can not");
+                mFtpClient.makeDirectory(userid);
+                mFtpClient.changeWorkingDirectory("/" + userid);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        SimpleDateFormat timeformat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss_");
-        String timestamp = timeformat.format(new Date ());
+       // uploadFile(mFtpClient,  photoFile, "");
 
-
-      // String INPUT_FOLDER=Environment.getExternalStorageDirectory()+"/"+R.string.app_name+"/PassiveData";
-     //  String ZIPPED_FOLDER=Environment.getExternalStorageDirectory()+"/"+R.string.app_name+"/"+ DataLogger.Myid+ timestamp+"passivedata.zip";
-      //  zipSimpleFolder(new File(INPUT_FOLDER), "", ZIPPED_FOLDER);
-      //  String output=Environment.getExternalStorageDirectory()+"/"+R.string.app_name+"/alan2015-07-06_18:32:19_passivedata.zip";
-
-      // DataLogger.EmptyFolder(INPUT_FOLDER);
-      // File to = new File(ZIPPED_FOLDER);
-
-      //  Log.e("FTP", to.getName());
-       // uploadFile(mFtpClient, to, "");
 
     }
 
@@ -167,7 +174,7 @@ public class AsyncTaskUploadFilesToFTP extends AsyncTask {
 
            // ftpClient.setFileTransferMode(FTP.BINARY_FILE_TYPE);
             Log.e("FTP", "uploading ");
-          //  ftpClient.setCopyStreamListener(createListener());
+           ftpClient.setCopyStreamListener(createListener());
 
             boolean status = ftpClient.storeFile( downloadFile.getName(),
                     srcFileStream);
@@ -176,13 +183,11 @@ public class AsyncTaskUploadFilesToFTP extends AsyncTask {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
-    private static CopyStreamListener createListener(){
+    private CopyStreamListener createListener(){
         return new CopyStreamListener(){
-            private long megsTotal = 0;
+
             //            @Override
             public void bytesTransferred(CopyStreamEvent event) {
                 bytesTransferred(event.getTotalBytesTransferred(), event.getBytesTransferred(), event.getStreamSize());
@@ -192,75 +197,61 @@ public class AsyncTaskUploadFilesToFTP extends AsyncTask {
             public void bytesTransferred(long totalBytesTransferred,
                                          int bytesTransferred, long streamSize) {
 
+                Log.i("transfered", String.valueOf(totalBytesTransferred));
+               // double megs =  (((double)totalBytesTransferred)/photoFile.length())*10;
 
-                long megs = totalBytesTransferred / 1000000;
-                for (long l = megsTotal; l < megs; l++) {
-                    //System.err.print("#");
-                    Log.e("FTP", "#");
 
-                }
+              //  barProgressDialog.setProgress((int)megs);
 
-                megsTotal = megs;
+
             }
         };
     }
 
-    public static void zipSimpleFolder(File inputFolder, String parentName ,String zipFilePath ){
+    public void UploadRatingtoServer(JSONObject obj) throws JSONException {
+
+
+
+        URL url = null;
+        try {
+
+            url = new URL("http://www.ratethisplace.co/uploadRatingtoDB.php?RatingJson="+obj.toString().replaceAll(" ", "%20"));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        HttpURLConnection urlConnection = null;
 
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream(zipFilePath);
-
-            ZipOutputStream zipOutputStream = new ZipOutputStream(fileOutputStream);
-
-            String myname = parentName +inputFolder.getName()+"\\";
-
-            ZipEntry folderZipEntry = new ZipEntry(myname);
-            zipOutputStream.putNextEntry(folderZipEntry);
-
-            File[] contents = inputFolder.listFiles();
-
-            for (File f : contents){
-                if (f.isFile())
-                    zipFile(f,myname,zipOutputStream);
-            }
-
-            zipOutputStream.closeEntry();
-            zipOutputStream.close();
-
-        } catch (FileNotFoundException e) {
+            urlConnection = (HttpURLConnection) url.openConnection();
+        } catch (IOException e) {
+            Log.i("php",  "network is not available");
+            DataLogger.writeSimpleRatingTolog(url.toString());
             e.printStackTrace();
+        }
+
+
+
+        InputStream in = null;
+        try {
+            in = new BufferedInputStream(urlConnection.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-    }
-
-    public static void zipFile(File inputFile,String parentName,ZipOutputStream zipOutputStream) {
-
+        BufferedReader r = new BufferedReader(new InputStreamReader(in));
+        StringBuilder total = new StringBuilder();
+        String line;
         try {
-            // A ZipEntry represents a file entry in the zip archive
-            // We name the ZipEntry after the original file's name
-            ZipEntry zipEntry = new ZipEntry(parentName+inputFile.getName());
-            zipOutputStream.putNextEntry(zipEntry);
-
-            FileInputStream fileInputStream = new FileInputStream(inputFile);
-            byte[] buf = new byte[1024];
-            int bytesRead;
-
-            // Read the input file by chucks of 1024 bytes
-            // and write the read bytes to the zip stream
-            while ((bytesRead = fileInputStream.read(buf)) > 0) {
-                zipOutputStream.write(buf, 0, bytesRead);
+            while ((line = r.readLine()) != null) {
+                total.append(line);
             }
-
-            // close ZipEntry to store the stream to the file
-            zipOutputStream.closeEntry();
-            Log.e("FTP", "Regular file :" + inputFile.getCanonicalPath() + " is zipped to archive :"  );
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Log.i("php", total.toString());
+
+        //upload photo
+        connnectingwithFTP();
 
     }
 

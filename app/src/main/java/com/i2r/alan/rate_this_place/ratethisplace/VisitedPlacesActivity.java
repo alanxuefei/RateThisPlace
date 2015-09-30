@@ -1,4 +1,4 @@
-package com.i2r.alan.rate_this_place.visitedplace;
+package com.i2r.alan.rate_this_place.ratethisplace;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.i2r.alan.rate_this_place.R;
 import com.i2r.alan.rate_this_place.utility.Constants;
+import com.i2r.alan.rate_this_place.visitedplace.RateThisPlaceActivityFromVisitedPlaceActivity;
+import com.i2r.alan.rate_this_place.visitedplace.RateThisPlaceRatingFromVisitedPlacesActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,9 +50,6 @@ public class VisitedPlacesActivity extends AppCompatActivity {
         buildTableRow0();
         buildTableRow1();
         buildTableRow2();
-        buildTableRow3();
-        buildTableRow4();
-        buildTableRow5();
 
 
 
@@ -299,87 +298,6 @@ public class VisitedPlacesActivity extends AppCompatActivity {
         }
         else{
             ((TextView)findViewById(R.id.location2_time)).setText("Wait for your visit");
-
-        };
-    }
-
-    public void buildTableRow3() {
-
-        if  (!((this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).getString(Constants.Locations[3] + "DateTime", "NA")).equals("NA"))){
-            ((TextView)findViewById(R.id.location3_time)).setText(((this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).getString(Constants.Locations[3] + "DateTime", "NA")).replace("_","\n")));
-            if (!((this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).getString(Constants.Locations[3] + "RatingStatus", "NA")).equals("NA"))){
-                addStar(((ViewGroup) findViewById(R.id.TableRow3)), this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).getString(Constants.Locations[3] + "RatingStatus", "NA"));
-
-
-            }
-            else{
-                addRATINGButton(((ViewGroup) findViewById(R.id.TableRow3)), Constants.Locations[3]);
-            }
-
-            if (!((this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).getString(Constants.Locations[3] + "ActivityStatus", "NA")).equals("NA"))){
-                addACTIVITYcontent(((ViewGroup) findViewById(R.id.TableRow3)),  this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).getString(Constants.Locations[3] + "ActivityStatus", "NA"));
-            }
-            else{
-                addACTIVITYButton(((ViewGroup) findViewById(R.id.TableRow3)), Constants.Locations[3]);
-            }
-
-        }
-        else{
-            ((TextView)findViewById(R.id.location3_time)).setText("Wait for your visit");
-
-        };
-    }
-
-    public void buildTableRow4() {
-
-        if  (!((this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).getString(Constants.Locations[4] + "DateTime", "NA")).equals("NA"))){
-            ((TextView)findViewById(R.id.location4_time)).setText(((this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).getString(Constants.Locations[4] + "DateTime", "NA")).replace("_","\n")));
-            if (!((this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).getString(Constants.Locations[4] + "RatingStatus", "NA")).equals("NA"))){
-                addStar(((ViewGroup) findViewById(R.id.TableRow4)), this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).getString(Constants.Locations[4] + "RatingStatus", "NA"));
-
-
-            }
-            else{
-                addRATINGButton(((ViewGroup) findViewById(R.id.TableRow4)), Constants.Locations[4]);
-            }
-
-            if (!((this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).getString(Constants.Locations[4] + "ActivityStatus", "NA")).equals("NA"))){
-                addACTIVITYcontent(((ViewGroup) findViewById(R.id.TableRow4)),  this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).getString(Constants.Locations[4] + "ActivityStatus", "NA"));
-            }
-            else{
-                addACTIVITYButton(((ViewGroup) findViewById(R.id.TableRow4)), Constants.Locations[4]);
-            }
-
-        }
-        else{
-            ((TextView)findViewById(R.id.location4_time)).setText("Wait for your visit");
-
-        };
-    }
-
-    public void buildTableRow5() {
-
-        if  (!((this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).getString(Constants.Locations[5] + "DateTime", "NA")).equals("NA"))){
-            ((TextView)findViewById(R.id.location5_time)).setText(((this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).getString(Constants.Locations[5] + "DateTime", "NA")).replace("_","\n")));
-            if (!((this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).getString(Constants.Locations[5] + "RatingStatus", "NA")).equals("NA"))){
-                addStar(((ViewGroup) findViewById(R.id.TableRow5)), this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).getString(Constants.Locations[5] + "RatingStatus", "NA"));
-
-
-            }
-            else{
-                addRATINGButton(((ViewGroup) findViewById(R.id.TableRow5)), Constants.Locations[5]);
-            }
-
-            if (!((this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).getString(Constants.Locations[5] + "ActivityStatus", "NA")).equals("NA"))){
-                addACTIVITYcontent(((ViewGroup) findViewById(R.id.TableRow5)),  this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).getString(Constants.Locations[5] + "ActivityStatus", "NA"));
-            }
-            else{
-                addACTIVITYButton(((ViewGroup) findViewById(R.id.TableRow5)), Constants.Locations[5]);
-            }
-
-        }
-        else{
-            ((TextView)findViewById(R.id.location5_time)).setText("Wait for your visit");
 
         };
     }

@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -29,7 +28,7 @@ public class MyRewardActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-       // new AsyncTaskGetDataToMyReward(this,(LinearLayout)findViewById(R.id.linearLayout_rewardbar)).execute();
+        new AsyncTaskGetDataToMyReward(this,(TextView)findViewById(R.id.textView_Rewards),(ProgressBar)findViewById(R.id.progressBar_locationname)).execute();
 
 
     }

@@ -18,13 +18,10 @@ package com.i2r.alan.rate_this_place.pasivedatacollection;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorEventListener;
-import android.util.Log;
 
-import com.i2r.alan.rate_this_place.utility.Constants;
 import com.google.android.gms.location.ActivityRecognitionResult;
 import com.google.android.gms.location.DetectedActivity;
+import com.i2r.alan.rate_this_place.utility.Constants;
 import com.i2r.alan.rate_this_place.utility.DataLogger;
 
 import java.util.ArrayList;

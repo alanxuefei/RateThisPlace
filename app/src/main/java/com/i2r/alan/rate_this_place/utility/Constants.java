@@ -123,17 +123,13 @@ public final class Constants {
     /**
      * Map for storing information about airports in the San Francisco bay area.
      */
-    public static final HashMap<String, LatLng> BAY_AREA_LANDMARKS = new HashMap<String, LatLng>();
+    public static final String[] Locations = {"I2ROffice", "Pioneer", "Buona Vista","Jurong East","8 Somapah Rd","Coffee Shop"};
+    public static final double[] Lat = new double[]{1.2993538, 1.337399, 1.307739, 1.334625, 1.340171, 1.335703};
+    public static final double[] Lng = new double[]{103.787726, 103.697090, 103.789675, 103.741915, 103.963100, 103.696774};
+    public static final HashMap<String, LatLng> AREA_LANDMARKS = new HashMap<String, LatLng>();
     static {
-        // San Francisco International Airport.
-        BAY_AREA_LANDMARKS.put("I2ROffice", new LatLng(1.2993538, 103.787726));
-        BAY_AREA_LANDMARKS.put("Pioneer", new LatLng(1.337399,103.697090));
-        BAY_AREA_LANDMARKS.put("Buona Vista", new LatLng(1.307739, 103.789675));
-        BAY_AREA_LANDMARKS.put("Jurong East", new LatLng( 1.334625, 103.741915));
-        BAY_AREA_LANDMARKS.put("Dover", new LatLng( 1.311652, 103.778638));
-        BAY_AREA_LANDMARKS.put("653C", new LatLng(  1.335703, 103.696774));
-
-
-
+        for(int i=0; i<Locations.length; i++){
+            AREA_LANDMARKS.put(Locations[i], new LatLng(Lat[i], Lng[i]));
+        }
     }
 }

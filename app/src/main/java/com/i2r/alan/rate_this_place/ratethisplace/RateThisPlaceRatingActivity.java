@@ -1,9 +1,7 @@
 package com.i2r.alan.rate_this_place.ratethisplace;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,24 +9,15 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.i2r.alan.rate_this_place.utility.Constants;
 import com.i2r.alan.rate_this_place.utility.globalvariable;
-
-import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,16 +28,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class RateThisPlaceRatingActivity extends AppCompatActivity  {
+public class RateThisPlaceRatingActivity extends AppCompatActivity {
 
     /*google activity detection*/
 
-    String mAddressOutput;
-    private Location mLastLocation=new Location("");
-
     private enum Mood { NOFEELING, HAPPY, UNHAPPY}
 
-    private Mood  usermood =Mood.NOFEELING;
+    private Mood  usermood = Mood.NOFEELING;
 
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -58,9 +44,9 @@ public class RateThisPlaceRatingActivity extends AppCompatActivity  {
         setContentView(com.i2r.alan.rate_this_place.R.layout.activity_rating);
 
 
-        final EditText mAutoCompleteTextView_Commentary= (EditText) findViewById(com.i2r.alan.rate_this_place.R.id.AutoCompleteTextView_Commentary);
+       // final EditText mAutoCompleteTextView_Commentary= (EditText) findViewById(com.i2r.alan.rate_this_place.R.id.AutoCompleteTextView_Commentary);
 
-        mAutoCompleteTextView_Commentary.addTextChangedListener(new TextWatcher() {
+  /*      mAutoCompleteTextView_Commentary.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -95,7 +81,9 @@ public class RateThisPlaceRatingActivity extends AppCompatActivity  {
             }
 
 
-        });
+        });*/
+
+        addListenerOnRatingBar();
     }
 
 
@@ -127,7 +115,7 @@ public class RateThisPlaceRatingActivity extends AppCompatActivity  {
 
         ((RadioButton)findViewById(com.i2r.alan.rate_this_place.R.id.radioButton2)).setChecked(true);
         ((TextView)findViewById(com.i2r.alan.rate_this_place.R.id.textView)).setText("This place makes me feel: Unhappy");
-        usermood =Mood.UNHAPPY;
+        usermood = Mood.UNHAPPY;
     }
 
     public void clickImage_happyface(View view) {
@@ -136,7 +124,7 @@ public class RateThisPlaceRatingActivity extends AppCompatActivity  {
 
         ((RadioButton)findViewById(com.i2r.alan.rate_this_place.R.id.radioButton)).setChecked(true);
         ((TextView)findViewById(com.i2r.alan.rate_this_place.R.id.textView)).setText("This place makes me feel: Happy");
-        usermood =Mood.HAPPY;
+        usermood = Mood.HAPPY;
 
     }
 
@@ -227,7 +215,7 @@ public class RateThisPlaceRatingActivity extends AppCompatActivity  {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = this.getSharedPreferences("UserInfo", this.MODE_PRIVATE).getString("UserID", null)
-                + "_"+timeStamp + "_Lat_"+mLastLocation.getLatitude()+"_Lon_"+mLastLocation.getLongitude()+"_"+mLastLocation.getProvider()+"_";
+                + "_"+timeStamp + "_Lat_"+ globalvariable.thelocation.getLatitude()+"_Lon_"+ globalvariable.thelocation.getLongitude()+"_"+ globalvariable.thelocation.getProvider()+"_";
         File storageDir = new File(Environment.getExternalStorageDirectory() + "/" + "RateThisPlace" + "/" + "ActiveData/");
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
@@ -257,7 +245,7 @@ public class RateThisPlaceRatingActivity extends AppCompatActivity  {
             if (globalvariable.thelocation==null){
                 JsonGenerator_rating_location =null;}
             else {
-                JsonGenerator_rating_location.put("longitude",globalvariable.thelocation.getLongitude());
+                JsonGenerator_rating_location.put("longitude", globalvariable.thelocation.getLongitude());
                 JsonGenerator_rating_location.put("latitude", globalvariable.thelocation.getLatitude());
             }
             JsonGenerator_rating.put("Datatime", timestamp);
@@ -276,7 +264,7 @@ public class RateThisPlaceRatingActivity extends AppCompatActivity  {
                 JsonGenerator_rating.put("PictureURL", "NoPhoto");
             }
 
-            JsonGenerator_rating.put("Commentary", ((EditText) findViewById(com.i2r.alan.rate_this_place.R.id.AutoCompleteTextView_Commentary)).getText().toString());
+           // JsonGenerator_rating.put("Commentary", ((EditText) findViewById(com.i2r.alan.rate_this_place.R.id.AutoCompleteTextView_Commentary)).getText().toString());
             Log.i("JSON", JsonGenerator_rating.toString());
         } catch (JSONException e) {
             e.printStackTrace();

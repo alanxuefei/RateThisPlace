@@ -9,28 +9,23 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
-import android.widget.TextView;
 
-import com.i2r.alan.rate_this_place.MainActivity;
-import com.i2r.alan.rate_this_place.feedback.FeedbackDialogFragment;
-import com.i2r.alan.rate_this_place.myrewards.MyRewardActivity;
-import com.i2r.alan.rate_this_place.pasivedatacollection.PassiveDataToFTPIntentService;
-import com.i2r.alan.rate_this_place.pasivedatacollection.SensorListenerService;
-import com.i2r.alan.rate_this_place.ratethisplace.RateThisPlaceActivity;
-import com.i2r.alan.rate_this_place.usersetting.UserAgreementDialogFragment;
-import com.i2r.alan.rate_this_place.usersetting.UserProfileActivity;
-import com.i2r.alan.rate_this_place.visitedplace.VisitedPlacesActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.i2r.alan.rate_this_place.MainActivity;
+import com.i2r.alan.rate_this_place.myrewards.MyRewardActivity;
+import com.i2r.alan.rate_this_place.pasivedatacollection.PassiveDataToFTPIntentService;
+import com.i2r.alan.rate_this_place.ratethisplace.RateThisPlaceActivity;
+import com.i2r.alan.rate_this_place.utility.globalvariable;
+import com.i2r.alan.rate_this_place.visitedplace.VisitedPlacesActivity;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, PopupMenu.OnMenuItemClickListener,LocationListener {
 
@@ -112,7 +107,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setIndoorEnabled(true);
         (new AsyncTaskGetRatingDataToMap(this,mMap,mLastLocation)).execute();
         (new AsyncTaskGetActivitiesDataToMap(this,mMap,mLastLocation)).execute();
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(1.348551, 103.813059), 10));
+        if(globalvariable.thelocation==null){
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(1.348551, 103.813059), 10));
+        }
+        else{
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(globalvariable.thelocation.getLatitude(), globalvariable.thelocation.getLongitude()), 18));
+        }
     }
 
     @Override
@@ -167,13 +167,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             case com.i2r.alan.rate_this_place.R.id.action_userprofile:
                 //Toast.makeText(this, "userprofile", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this, UserProfileActivity.class));
+              //  startActivity(new Intent(this, UserProfileActivity.class));
                 return true;
 
-            case com.i2r.alan.rate_this_place.R.id.action_feedback:
-               // Toast.makeText(this, "Feedback Clicked", Toast.LENGTH_SHORT).show();
-                new FeedbackDialogFragment().show(getSupportFragmentManager(), "FeedbackDialog");
-                return true;
+
             case com.i2r.alan.rate_this_place.R.id.action_aboutus:
                 //Toast.makeText(this, "Music Clicked", Toast.LENGTH_SHORT).show();
                 return true;

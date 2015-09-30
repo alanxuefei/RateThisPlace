@@ -75,37 +75,8 @@
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="27dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="*1 Points = 1 SGD"
-            android:lines="4"
-            android:id="@+id/textView6"
-            android:layout_marginBottom="20dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="88dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="• Calculate reward points based on contributed day. One Day = One Point = One SGD  "
-            android:id="@+id/textView7" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="• One day means that users contribute one or more comments on that day.    "
-            android:id="@+id/textView9" />
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Connecting to Internet"
-        android:id="@+id/textView10"
-        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

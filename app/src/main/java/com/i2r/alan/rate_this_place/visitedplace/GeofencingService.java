@@ -8,9 +8,6 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.i2r.alan.rate_this_place.utility.Commonfunctions;
-import com.i2r.alan.rate_this_place.utility.Constants;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -19,6 +16,7 @@ import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
+import com.i2r.alan.rate_this_place.utility.Constants;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -133,7 +131,7 @@ public class GeofencingService extends Service implements
      * the user's location.
      */
     public void populateGeofenceList() {
-        for (Map.Entry<String, LatLng> entry : Constants.BAY_AREA_LANDMARKS.entrySet()) {
+        for (Map.Entry<String, LatLng> entry : Constants.AREA_LANDMARKS.entrySet()) {
             Log.i(GeoTAG, "populate");
             mGeofenceList.add(new Geofence.Builder()
                     // Set the request ID of the geofence. This is a string to identify this

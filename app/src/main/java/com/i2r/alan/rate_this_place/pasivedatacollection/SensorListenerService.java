@@ -2,7 +2,6 @@ package com.i2r.alan.rate_this_place.pasivedatacollection;
 
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -14,28 +13,21 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.BatteryManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.i2r.alan.rate_this_place.R;
-import com.i2r.alan.rate_this_place.utility.Constants;
-import com.i2r.alan.rate_this_place.utility.DataLogger;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.ActivityRecognition;
-import com.google.android.gms.location.DetectedActivity;
+import com.i2r.alan.rate_this_place.utility.Constants;
+import com.i2r.alan.rate_this_place.utility.DataLogger;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.Calendar;
 
 
@@ -164,7 +156,7 @@ private boolean toggle=false;
                 WakelockTag);
         wakeLock.acquire();
 
-        Toast.makeText(this, "sensor service starting", Toast.LENGTH_SHORT).show();
+     //   Toast.makeText(this, "sensor service starting", Toast.LENGTH_SHORT).show();
 
         /*battery_level*/
         ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
@@ -196,7 +188,7 @@ private boolean toggle=false;
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), 1000 * 1000);
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY), 1000 * 1000);
 
-        Toast.makeText(this, "start sensing", Toast.LENGTH_SHORT).show();
+     //   Toast.makeText(this, "start sensing", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -213,7 +205,7 @@ private boolean toggle=false;
         }
 
 
-        Toast.makeText(this, "stop sensing", Toast.LENGTH_SHORT).show();
+     //   Toast.makeText(this, "stop sensing", Toast.LENGTH_SHORT).show();
 
 
         removeActivityUpdates();
@@ -263,7 +255,7 @@ private boolean toggle=false;
 
         stopsensing();
         wakeLock.release();
-        Toast.makeText(this, "sensor service Stop", Toast.LENGTH_SHORT).show();
+    //    Toast.makeText(this, "sensor service Stop", Toast.LENGTH_SHORT).show();
         super.onDestroy();
         // The service is no longer used and is being destroyed
     }
@@ -283,7 +275,7 @@ private boolean toggle=false;
             float z = event.values[2];
            // DataLogger.writeTolog( " A " + String.format("%.3f", x) + " " + String.format("%.2f", y) + " " + String.format("%.2f", z) + " "+Long.toString(event.timestamp)+"\n");
             String dataformat= "A " + String.format("%.3f", x) + " " + String.format("%.3f", y) + " " + String.format("%.3f", z) + " "+ "\n";
-            DataLogger.writeTolog( dataformat,logswich);
+            DataLogger.writeTolog(dataformat, logswich);
             Log.i(Sensor_TAG, Long.toString(event.timestamp) + dataformat);
         }
         else if (mySensor.getType() == Sensor.TYPE_GYROSCOPE) {
@@ -292,7 +284,7 @@ private boolean toggle=false;
             float z = event.values[2];
             // DataLogger.writeTolog( " A " + String.format("%.2f", x) + " " + String.format("%.2f", y) + " " + String.format("%.2f", z) + " "+Long.toString(event.timestamp)+"\n");
             String dataformat= "G " + String.format("%.3f", x) + " " + String.format("%.3f", y) + " " + String.format("%.3f", z) + " "+ "\n";
-            DataLogger.writeTolog( dataformat,logswich);
+            DataLogger.writeTolog(dataformat, logswich);
             Log.i(Sensor_TAG, Long.toString(event.timestamp) + dataformat);
         }
         else if (mySensor.getType() == Sensor.TYPE_LIGHT) {
@@ -300,14 +292,14 @@ private boolean toggle=false;
 
             // DataLogger.writeTolog( " A " + String.format("%.2f", x) + " " + String.format("%.2f", y) + " " + String.format("%.2f", z) + " "+Long.toString(event.timestamp)+"\n");
             String dataformat= "Li " + String.format("%3f", x)+ "\n";
-            DataLogger.writeTolog( dataformat,logswich);
+            DataLogger.writeTolog(dataformat, logswich);
             Log.i(Sensor_TAG, Long.toString(event.timestamp) + dataformat);
         }
         else if (mySensor.getType() == Sensor.TYPE_PROXIMITY) {
             float x = event.values[0];
            // DataLogger.writeTolog(" P " + x + " "+Long.toString(event.timestamp)+"\n");
             String dataformat= "P " + String.format("%f", x) + "\n";
-            DataLogger.writeTolog("P " + x + " "+"\n",logswich);
+            DataLogger.writeTolog("P " + x + " " + "\n", logswich);
             Log.i(Sensor_TAG, Long.toString(event.timestamp)+" "+ "Proximity x=" + x);
         }
         else if (mySensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
@@ -316,7 +308,7 @@ private boolean toggle=false;
             float z = event.values[2];
            // DataLogger.writeTolog( " M " + x + " " + y + " " + z + " "+Long.toString(event.timestamp)+ "\n");
             String dataformat= "M " + String.format("%.3f", x) + " " + String.format("%.3f", y) + " " + String.format("%.3f", z) + " "+ "\n";
-            DataLogger.writeTolog(dataformat,logswich);
+            DataLogger.writeTolog(dataformat, logswich);
             Log.i(Sensor_TAG, Long.toString(event.timestamp) + dataformat);
         }
 
@@ -338,7 +330,7 @@ private boolean toggle=false;
         String Location_information= "L " + longitude + " " + latitude+" "+location.getProvider()+" "+Accuracy;
 
         Log.i(Location_TAG,  Location_information);
-        DataLogger.writeTolog(Location_information + "\n",logswich);
+        DataLogger.writeTolog(Location_information + "\n", logswich);
 
         //Toast.makeText(this, Location_information, Toast.LENGTH_SHORT).show();
 
@@ -367,7 +359,7 @@ private boolean toggle=false;
         int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
         float batteryPct = level / (float) scale;
         Log.i("MyActivity",  " "+"battery level " + batteryPct);
-        DataLogger.writeTolog( " " + "B " + batteryPct + "\n",logswich);
+        DataLogger.writeTolog(" " + "B " + batteryPct + "\n", logswich);
         return batteryPct;
     }
 
@@ -453,7 +445,7 @@ private boolean toggle=false;
      */
     public void removeActivityUpdates() {
         if (!mGoogleApiClient.isConnected()) {
-            Toast.makeText(this, getString(R.string.not_connected), Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(this, getString(R.string.not_connected), Toast.LENGTH_SHORT).show();
             return;
         }
         // Remove all activity updates for the PendingIntent that was used to request activity

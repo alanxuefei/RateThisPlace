@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,11 +24,9 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.i2r.alan.rate_this_place.utility.Constants;
 import com.i2r.alan.rate_this_place.utility.globalvariable;
-
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,7 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class RateThisPlaceActivityActivity extends AppCompatActivity  {
+public class RateThisPlaceActivityActivity extends AppCompatActivity {
 
     private AutoCompleteTextView actv;
     String[] languages={"This place is not clean","This is a most crowded place on Earth","IOS","SQL","JDBC","Web services"};
@@ -49,7 +46,7 @@ public class RateThisPlaceActivityActivity extends AppCompatActivity  {
     Location mLastLocation= new Location("");
 
     private enum AloneGroupSet {NA, Alone,Group};
-    private AloneGroupSet  AloneGroup =AloneGroupSet.NA;
+    private AloneGroupSet  AloneGroup = AloneGroupSet.NA;
 
 
 
@@ -308,7 +305,7 @@ public class RateThisPlaceActivityActivity extends AppCompatActivity  {
             if (globalvariable.thelocation==null){JsonGenerator_basicrating_location=null;}
             else {
                 JsonGenerator_basicrating_location.put("longitude", globalvariable.thelocation.getLongitude());
-                JsonGenerator_basicrating_location.put("latitude",globalvariable.thelocation.getLatitude());
+                JsonGenerator_basicrating_location.put("latitude", globalvariable.thelocation.getLatitude());
             }
             JsonGenerator_activity.put("Datatime", timestamp);
             JsonGenerator_activity.put("Location", JsonGenerator_basicrating_location);

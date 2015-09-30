@@ -7,8 +7,6 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -17,11 +15,9 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.util.Patterns;
-import android.widget.TextView;
 
+import com.i2r.alan.rate_this_place.MainActivity;
 import com.i2r.alan.rate_this_place.R;
-import com.i2r.alan.rate_this_place.pasivedatacollection.SensorListenerService;
-import com.i2r.alan.rate_this_place.pasivedatacollection.WifiBroadcastReceiver;
 import com.i2r.alan.rate_this_place.utility.Commonfunctions;
 
 import java.util.regex.Pattern;
@@ -45,7 +41,10 @@ public class UserAgreementDialogFragment extends DialogFragment {
                                 .apply();
 
                         ReadGoogleAccount();
+
                         Commonfunctions.setSensingAlarm(getActivity());
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        startActivity(intent);
 
                     }
                 })
@@ -82,8 +81,6 @@ public class UserAgreementDialogFragment extends DialogFragment {
                 .edit()
                 .putString("UserID",uniqueUserID)
                 .apply();
-
-
 
     }
 

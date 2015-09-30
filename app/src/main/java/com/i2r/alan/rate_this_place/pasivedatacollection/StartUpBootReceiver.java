@@ -1,14 +1,10 @@
 package com.i2r.alan.rate_this_place.pasivedatacollection;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
 import com.i2r.alan.rate_this_place.utility.Commonfunctions;
-
-import java.util.Calendar;
 
 /**
  * Created by Xue Fei on 3/6/2015.

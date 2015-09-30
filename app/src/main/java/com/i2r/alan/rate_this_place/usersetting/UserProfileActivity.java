@@ -86,6 +86,7 @@ public class  UserProfileActivity extends PreferenceActivity {
         // to reflect the new value, per the Android Design guidelines.
        bindPreferenceSummaryToValue(findPreference("display_name"));
         bindPreferenceSummaryToValue(findPreference("display_usertitle"));
+        bindPreferenceSummaryToValue(findPreference("display_userage"));
       // bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
     //  bindPreferenceSummaryToValue(findPreference("sync_frequency"));
     }

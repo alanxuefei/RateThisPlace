@@ -3,6 +3,7 @@ package com.i2r.alan.rate_this_place.myrewards;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -33,15 +34,15 @@ public class AsyncTaskGetDataToMyRewardBar extends AsyncTask {
     protected static final String AsyncTaskGetDataToMyReward_TAG = "AsyncTaskGetData_MYREWARDS";
     ImageView image0,image1,image2,image3;
 
-    TextView  TextViewConnection,TextViewRewards;
+    TextView  TextViewConnection,TextViewRewards,TextView_promote;
 
     LinearLayout mLinearLayoutrewardbar;
-    ProgressBar ProgressBar_rewards;
+    ProgressBar ProgressBar_rewards,progressbar_promote;
 
 
 
 
-    public AsyncTaskGetDataToMyRewardBar(Context context0, ImageView image0,ImageView image1,ImageView image2,ImageView image3,ProgressBar ProgressBar_rewards,TextView Rewards) {
+    public AsyncTaskGetDataToMyRewardBar(Context context0, ProgressBar progressbar_promote0, TextView TextView_promote0, ImageView image0, ImageView image1, ImageView image2, ImageView image3, ProgressBar ProgressBar_rewards, TextView Rewards) {
         super();
         this.context=context0;
         this.image0=image0;
@@ -50,6 +51,8 @@ public class AsyncTaskGetDataToMyRewardBar extends AsyncTask {
         this.image3=image3;
         this.ProgressBar_rewards=ProgressBar_rewards;
         this.TextViewRewards=Rewards;
+        this.progressbar_promote= progressbar_promote0;
+        this.TextView_promote=TextView_promote0;
 
 
        // this.progressBar_points=progressBar_points0;
@@ -126,7 +129,13 @@ public class AsyncTaskGetDataToMyRewardBar extends AsyncTask {
        // Log.i(AsyncTaskGetDataToMyReward_TAG, o.toString());
         if (o!=null){
 
-
+            progressbar_promote.setVisibility(View.GONE);
+            TextView_promote.setVisibility(View.GONE);
+            ProgressBar_rewards.setVisibility(View.VISIBLE);
+            image0.setVisibility(View.VISIBLE);
+            image1.setVisibility(View.VISIBLE);
+            image2.setVisibility(View.VISIBLE);
+            image3.setVisibility(View.VISIBLE);
             try {
                 JSONObject mJsonResponse = new JSONObject(o.toString().replace("[],",""));
                 int thepoints=Integer.parseInt(mJsonResponse.getString("Reward"));

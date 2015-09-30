@@ -1,54 +1,39 @@
 package com.i2r.alan.rate_this_place;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.bluetooth.BluetoothAdapter;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.provider.Settings.Secure;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.i2r.alan.rate_this_place.database.DBContract;
-import com.i2r.alan.rate_this_place.database.DBHelper;
-import com.i2r.alan.rate_this_place.feedback.FeedbackDialogFragment;
+
 import com.i2r.alan.rate_this_place.mapview.MapsActivity;
-import com.i2r.alan.rate_this_place.myrewards.AsyncTaskGetDataToMyReward;
+import com.i2r.alan.rate_this_place.myrewards.AsyncTaskGetDataToMyRewardBar;
 import com.i2r.alan.rate_this_place.myrewards.MyRewardActivity;
 import com.i2r.alan.rate_this_place.pasivedatacollection.PassiveDataToFTPIntentService;
-import com.i2r.alan.rate_this_place.pasivedatacollection.WifiBroadcastReceiver;
 import com.i2r.alan.rate_this_place.ratethisplace.RateThisPlaceActivity;
 import com.i2r.alan.rate_this_place.usersetting.UserAgreementDialogFragment;
 import com.i2r.alan.rate_this_place.usersetting.UserProfileActivity;
 import com.i2r.alan.rate_this_place.utility.Commonfunctions;
 import com.i2r.alan.rate_this_place.utility.Constants;
 import com.i2r.alan.rate_this_place.utility.DataLogger;
-import com.i2r.alan.rate_this_place.visitedplace.GeofencingService;
 import com.i2r.alan.rate_this_place.visitedplace.VisitedPlacesActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.regex.Pattern;
 
 /**
  * Created by Xue Fei on 19/5/2015.
@@ -80,34 +65,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     }
 
 
-    private void addDB(String LocationName) {
-                        /*my code*/
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd");
-        String currentDate = sdf.format(new Date());
-        sdf = new SimpleDateFormat("HH:mm:ss");
-        String currentTime = sdf.format(new Date());
-        DBHelper mDbHelper = new DBHelper(this);
-        LatLng detectedlocation_LatLng = Constants.BAY_AREA_LANDMARKS.get(LocationName);
-        // Gets the data repository in write mode
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
-        // Create a new map of values, where column names are the keys
-        ContentValues values = new ContentValues();
-        values.put(DBContract.FeedEntry.COLUMN_NAME_DATE, currentDate);
-        values.put(DBContract.FeedEntry.COLUMN_NAME_TIME, currentTime);
-        values.put(DBContract.FeedEntry.COLUMN_LOCATION_NAME, LocationName);
-        values.put(DBContract.FeedEntry.COLUMN_LOCATION_LATITUDE, detectedlocation_LatLng.latitude);
-        values.put(DBContract.FeedEntry.COLUMN_LOCATION_LONGITUDE,detectedlocation_LatLng.longitude);
-
-        // Insert the new row, returning the primary key value of the new row
-        long newRowId;
-        newRowId = db.insert(
-                DBContract.FeedEntry.TABLE_NAME,
-                null,
-                values);
-        Log.e("test1", "geo insert"+newRowId);
-    }
 
 
 
@@ -228,7 +186,9 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             {
                 ((TextView)findViewById(R.id.textView8)).setText("");
                 Log.i(GPS_Internet_Check_TAG, "internet Yes");
-                new AsyncTaskGetDataToMyReward(this,(LinearLayout)findViewById(R.id.linearLayout_rewardbar)).execute();
+                new AsyncTaskGetDataToMyRewardBar(this, (ProgressBar) findViewById(R.id.progressBar_rewards), (TextView) findViewById(R.id.textView_Rewards), (ImageView)findViewById(R.id.imageView_rewards1),
+                        (ImageView)findViewById(R.id.imageView_rewards2),(ImageView)findViewById(R.id.imageView_rewards3),
+                        (ImageView)findViewById(R.id.imageView_rewards4),(ProgressBar)findViewById(R.id.progressBar_rewards),(TextView)findViewById(R.id.textView_Rewards)).execute();
             }
             else{
                 ((TextView)findViewById(R.id.textView8)).setText("Internet is not available");
@@ -243,7 +203,10 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             {
                 ((TextView)findViewById(R.id.textView8)).setText("GPS is off");
                 Log.i(GPS_Internet_Check_TAG, "internet Yes");
-                new AsyncTaskGetDataToMyReward(this,(LinearLayout)findViewById(R.id.linearLayout_rewardbar)).execute();
+                new AsyncTaskGetDataToMyRewardBar(this,(ProgressBar)findViewById(R.id.progressBar_promote),(TextView)findViewById(R.id.textView_promote),
+                        (ImageView)findViewById(R.id.imageView_rewards1),
+                        (ImageView)findViewById(R.id.imageView_rewards2),(ImageView)findViewById(R.id.imageView_rewards3),
+                        (ImageView)findViewById(R.id.imageView_rewards4),(ProgressBar)findViewById(R.id.progressBar_rewards),(TextView)findViewById(R.id.textView_Rewards)).execute();
             }
             else{
                 ((TextView)findViewById(R.id.textView8)).setText("Internet is not available and GPS is off");
@@ -301,9 +264,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             case R.id.action_aboutus:
 
                 break;
-            case R.id.action_feedback:
-                new FeedbackDialogFragment().show(getSupportFragmentManager(), "FeedbackDialog");
-                break;
+
         }
 
         return super.onOptionsItemSelected(item);

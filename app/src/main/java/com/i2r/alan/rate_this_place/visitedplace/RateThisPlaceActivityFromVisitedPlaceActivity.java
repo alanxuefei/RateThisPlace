@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,9 +26,9 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.i2r.alan.rate_this_place.ratethisplace.AsyncTaskUploadActivity;
+import com.google.android.gms.maps.model.LatLng;
+import com.i2r.alan.rate_this_place.R;
 import com.i2r.alan.rate_this_place.utility.Constants;
-import com.i2r.alan.rate_this_place.utility.globalvariable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,7 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class RateThisPlaceActivityFromVisitedPlaceActivity extends AppCompatActivity  {
+public class RateThisPlaceActivityFromVisitedPlaceActivity extends AppCompatActivity {
 
     private AutoCompleteTextView actv;
     String[] languages={"This place is not clean","This is a most crowded place on Earth","IOS","SQL","JDBC","Web services"};
@@ -54,14 +55,14 @@ public class RateThisPlaceActivityFromVisitedPlaceActivity extends AppCompatActi
     private ActionBar actionBar;
     // Tab titles
     private String[] tabs = { "Top Rated", "Games", "Movies" };
-
+    String Locationname;
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.i2r.alan.rate_this_place.R.layout.activity_activity);
-
-
+        setContentView(R.layout.activity_activity_fromvisitedplaces);
+        Intent intent = getIntent();
+        Locationname = intent.getStringExtra("From");
 
         final EditText mEdit_Activity_Others= (EditText) findViewById(com.i2r.alan.rate_this_place.R.id.Edit_Activity_Others);
 
@@ -284,11 +285,15 @@ public class RateThisPlaceActivityFromVisitedPlaceActivity extends AppCompatActi
         else{
             mCheckBox9.setChecked(false);
         }
-        
+
     }
 
 
+    public void ReturnButton(View v) {
+        Log.i("test", "returen");
+        super.onBackPressed();
 
+    }
 
 
 
@@ -298,20 +303,18 @@ public class RateThisPlaceActivityFromVisitedPlaceActivity extends AppCompatActi
         SimpleDateFormat datetimeformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String timestamp = datetimeformat.format(new Date());
         JSONObject JsonGenerator_activity = new JSONObject();
-        JSONObject JsonGenerator_basicrating_location = new JSONObject();
-
+        JSONObject JsonGenerator_activity_location = new JSONObject();
+        String Activities="";
         try {
             JsonGenerator_activity.put("UserID", this.getSharedPreferences("UserInfo", this.MODE_PRIVATE).getString("UserID", null));
             JsonGenerator_activity.put("Nickname", PreferenceManager.getDefaultSharedPreferences(this).getString("display_name", ""));
-            if (globalvariable.thelocation==null){JsonGenerator_basicrating_location=null;}
-            else {
-                JsonGenerator_basicrating_location.put("longitude", globalvariable.thelocation.getLongitude());
-                JsonGenerator_basicrating_location.put("latitude",globalvariable.thelocation.getLatitude());
-            }
+            LatLng detectedlocation_LatLng = Constants.AREA_LANDMARKS.get(Locationname);
+            JsonGenerator_activity_location.put("longitude",detectedlocation_LatLng.longitude);
+            JsonGenerator_activity_location.put("latitude", detectedlocation_LatLng.latitude);
             JsonGenerator_activity.put("Datatime", timestamp);
-            JsonGenerator_activity.put("Location", JsonGenerator_basicrating_location);
+            JsonGenerator_activity.put("Location", JsonGenerator_activity_location);
             JsonGenerator_activity.put("AloneGroup", AloneGroup.toString());
-            String Activities="";
+
             if (((CheckBox) findViewById(com.i2r.alan.rate_this_place.R.id.checkBox1)).isChecked()) Activities=Activities+"Playing_";
             if (((CheckBox) findViewById(com.i2r.alan.rate_this_place.R.id.checkBox2)).isChecked()) Activities=Activities+"Cycling_";
             if (((CheckBox) findViewById(com.i2r.alan.rate_this_place.R.id.checkBox3)).isChecked()) Activities=Activities+"OnlineSocializing_";
@@ -328,8 +331,10 @@ public class RateThisPlaceActivityFromVisitedPlaceActivity extends AppCompatActi
             e.printStackTrace();
         }
 
-         AsyncTaskUploadActivity Activityuploader = new AsyncTaskUploadActivity(this, JsonGenerator_activity);
+        AsyncTaskUploadActivityFromVisitedPlace Activityuploader = new AsyncTaskUploadActivityFromVisitedPlace(this, JsonGenerator_activity);
         Activityuploader.execute();
+
+        this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).edit().putString(Locationname+"ActivityStatus",Activities).apply();
 
     }
 

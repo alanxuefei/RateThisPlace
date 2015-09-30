@@ -5,15 +5,13 @@ package com.i2r.alan.rate_this_place.utility;
  */
 
 
-
 import android.content.Context;
-        import android.graphics.Canvas;
-        import android.graphics.Color;
-        import android.graphics.Paint;
-        import android.graphics.Paint.Style;
-        import android.graphics.RectF;
-        import android.util.AttributeSet;
-        import android.view.View;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.graphics.RectF;
+import android.view.View;
 
 public class CircleProgressBar extends View {
     private int maxProgress = 100;
