@@ -29,7 +29,7 @@ public class MyRewardActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-       // new AsyncTaskGetDataToMyReward(this,(LinearLayout)findViewById(R.id.linearLayout_rewardbar)).execute();
+        new AsyncTaskGetDataToMyReward(this,(TextView)findViewById(R.id.textView_Rewards),(ProgressBar)findViewById(R.id.progressBar_locationname)).execute();
 
 
     }

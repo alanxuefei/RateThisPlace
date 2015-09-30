@@ -6,6 +6,124 @@
     android:paddingLeft="10dp"
     android:weightSum="1">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:background="#FFFFFF"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:onClick="ReturnButton">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:id="@+id/linearLayout_basic1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="0.82"
+                android:layout_toLeftOf="@+id/imageView4"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+
+                <LinearLayout
+                    android:id="@+id/linearLayout_rewardbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:id="@+id/imageView_rewards1"
+                        android:src="@drawable/rewards_cup_unactive"
+                        android:cropToPadding="false"
+                        android:background="#FFFFFF"
+                        android:adjustViewBounds="false"
+                        android:layout_gravity="left"
+                        android:paddingRight="1dp" />
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:id="@+id/imageView_rewards2"
+                        android:src="@drawable/rewards_cup_unactive"
+                        android:cropToPadding="false"
+                        android:background="#FFFFFF"
+                        android:adjustViewBounds="false"
+                        android:layout_gravity="left"
+                        android:paddingRight="1dp" />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:id="@+id/imageView_rewards3"
+                        android:src="@drawable/rewards_cup_unactive"
+                        android:cropToPadding="false"
+                        android:background="#FFFFFF"
+                        android:adjustViewBounds="false"
+                        android:layout_gravity="left"
+                        android:paddingRight="1dp" />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:id="@+id/imageView_rewards4"
+                        android:src="@drawable/rewards_cup_unactive"
+                        android:cropToPadding="false"
+                        android:background="#FFFFFF"
+                        android:adjustViewBounds="false"
+                        android:layout_gravity="left"
+                        android:paddingRight="1dp" />
+
+
+
+
+                    <ProgressBar
+                        style="@android:style/Widget.ProgressBar.Horizontal"
+
+                        android:layout_width="130dp"
+                        android:layout_height="20dp"
+                        android:id="@+id/progressBar_rewards"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_margin="5dp"
+                        android:progress="0"
+                        android:indeterminate="false"
+                        android:max="100" />
+
+                    <TextView
+                        android:layout_width="43dp"
+                        android:layout_height="25dp"
+                        android:layout_margin="5dp"
+                        android:background="#FFFFFF"
+                        android:textColor="#000000"
+                        android:id="@+id/textView_Rewards"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/imageView4"
+                android:src="@drawable/returnbutton"
+                android:cropToPadding="false"
+                android:background="#FFFFFF"
+                android:adjustViewBounds="false"
+                android:paddingRight="10dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -255,17 +373,53 @@
 
 
         </LinearLayout>
+        <!--
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/editboxborader">
 
-        <Button
-            android:layout_width="278dp"
-            android:layout_height="wrap_content"
-            android:text="Submit"
-            android:id="@+id/button"
-            android:layout_gravity="center"
-            android:onClick="clickButton_submit" />
+                    <EditText
+                        android:layout_width="230dp"
+                        android:layout_height="60dp"
+                        android:inputType="textMultiLine"
+                        android:ems="10"
+                        android:id="@+id/AutoCompleteTextView_Commentary"
+                        android:lines="3"
+                        android:hint="Write a comment..."
+                        android:imeOptions="actionDone"
+                        android:layout_marginTop="15dp"
+                        android:layout_toLeftOf="@+id/imageView5"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
 
-    </LinearLayout>
+                    <Button
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Done"
+                        android:id="@+id/button_editdone"
+                        android:layout_alignRight="@+id/AutoCompleteTextView_Commentary"
+                        android:layout_alignEnd="@+id/AutoCompleteTextView_Commentary"
+                        android:layout_alignParentRight="@+id/AutoCompleteTextView_Commentary"
+                        android:visibility="gone" />
 
-    </ScrollView>
 
-</LinearLayout>
+                </LinearLayout>
+ -->
+
+                <Button
+                    android:layout_width="278dp"
+                    android:layout_height="wrap_content"
+                    android:text="Submit"
+                    android:id="@+id/button"
+                    android:layout_gravity="center"
+                    android:onClick="clickButton_submit" />
+
+            </LinearLayout>
+
+            </ScrollView>
+
+        </LinearLayout>

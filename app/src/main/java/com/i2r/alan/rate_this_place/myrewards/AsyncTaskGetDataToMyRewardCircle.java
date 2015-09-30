@@ -1,13 +1,10 @@
 package com.i2r.alan.rate_this_place.myrewards;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,23 +26,23 @@ import java.net.URL;
  * Created by Xue Fei on 1/7/2015.
  */
 
-public class AsyncTaskGetDataToMyReward extends AsyncTask {
+public class AsyncTaskGetDataToMyRewardCircle extends AsyncTask {
     private Context context;
     private String UserID;
     protected static final String AsyncTaskGetDataToMyReward_TAG = "AsyncTaskGetData_MYREWARDS";
 
-    TextView TextViewConnection,TextViewPoint;
-    ProgressBar ProgressBar_wait;
+    TextView  TextViewConnection;
+
+    LinearLayout mLinearLayoutrewardbar;
 
 
 
 
-
-    public AsyncTaskGetDataToMyReward(Context context0,TextView TextViewPoint0, ProgressBar Progressbar0) {
+    public AsyncTaskGetDataToMyRewardCircle(Context context0, LinearLayout LinearLayout0) {
         super();
         this.context=context0;
-        this.TextViewPoint=TextViewPoint0;
-        this.ProgressBar_wait= Progressbar0;
+        this.mLinearLayoutrewardbar=LinearLayout0;
+
 
        // this.progressBar_points=progressBar_points0;
     }
@@ -124,13 +121,18 @@ public class AsyncTaskGetDataToMyReward extends AsyncTask {
 
             try {
                 JSONObject mJsonResponse = new JSONObject(o.toString().replace("[],",""));
-
+                int thepoints=Integer.parseInt(mJsonResponse.getString("Reward"));
                 context.getSharedPreferences("UserInfo", context.MODE_PRIVATE)
                         .edit()
                         .putString("Rewards", mJsonResponse.getString("Reward"))
                 .apply();
-                ProgressBar_wait.setVisibility(View.GONE);
-                TextViewPoint.setText(mJsonResponse.getString("Reward")+" Points");
+                mLinearLayoutrewardbar.removeAllViews();
+
+                for(int i=0 ; i < (thepoints/10) ; i++) { addcup(); }
+
+                addcircle(thepoints%10);
+              //  progressBar_points.setProgress(Integer.parseInt(mJsonResponse.getString("Reward")));
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -149,13 +151,38 @@ public class AsyncTaskGetDataToMyReward extends AsyncTask {
     @Override
     protected void onProgressUpdate(Object[] values) {
         super.onProgressUpdate(values);
-       // Toast.makeText(this.context, "Connecting to The Server", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this.context, "Connecting to The Server", Toast.LENGTH_SHORT).show();
 
     }
 
+    public void addcup() {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        int pixels = (int) (40 * scale + 0.5f);
 
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(pixels , pixels );
+        pixels = (int) (5 * scale + 0.5f);
+        params.setMargins(pixels, pixels, pixels, pixels);
+        ImageView mRewardCup = new ImageView(context);
+        mRewardCup.setLayoutParams(params);
+        mRewardCup.setImageResource(R.drawable.rewards_cup);
+        mRewardCup.setScaleType(ImageView.ScaleType.FIT_XY);
+        mLinearLayoutrewardbar.addView(mRewardCup);
 
+    }
 
+    public void addcircle(int progress) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        int pixels = (int) (40 * scale + 0.5f);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(pixels , pixels );
+        pixels = (int) (5 * scale + 0.5f);
+        params.setMargins(pixels, pixels, pixels, pixels);
+        com.i2r.alan.rate_this_place.utility.CircleProgressBar mRewardCup = new com.i2r.alan.rate_this_place.utility.CircleProgressBar(context);
+        mRewardCup.setLayoutParams(params);
+        mRewardCup.setProgress(progress*10);
+        mLinearLayoutrewardbar.addView(mRewardCup);
+
+    }
 
 
 

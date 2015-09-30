@@ -164,7 +164,7 @@ private boolean toggle=false;
                 WakelockTag);
         wakeLock.acquire();
 
-        Toast.makeText(this, "sensor service starting", Toast.LENGTH_SHORT).show();
+     //   Toast.makeText(this, "sensor service starting", Toast.LENGTH_SHORT).show();
 
         /*battery_level*/
         ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
@@ -196,7 +196,7 @@ private boolean toggle=false;
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), 1000 * 1000);
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY), 1000 * 1000);
 
-        Toast.makeText(this, "start sensing", Toast.LENGTH_SHORT).show();
+     //   Toast.makeText(this, "start sensing", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -213,7 +213,7 @@ private boolean toggle=false;
         }
 
 
-        Toast.makeText(this, "stop sensing", Toast.LENGTH_SHORT).show();
+     //   Toast.makeText(this, "stop sensing", Toast.LENGTH_SHORT).show();
 
 
         removeActivityUpdates();
@@ -263,7 +263,7 @@ private boolean toggle=false;
 
         stopsensing();
         wakeLock.release();
-        Toast.makeText(this, "sensor service Stop", Toast.LENGTH_SHORT).show();
+    //    Toast.makeText(this, "sensor service Stop", Toast.LENGTH_SHORT).show();
         super.onDestroy();
         // The service is no longer used and is being destroyed
     }
@@ -453,7 +453,7 @@ private boolean toggle=false;
      */
     public void removeActivityUpdates() {
         if (!mGoogleApiClient.isConnected()) {
-            Toast.makeText(this, getString(R.string.not_connected), Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(this, getString(R.string.not_connected), Toast.LENGTH_SHORT).show();
             return;
         }
         // Remove all activity updates for the PendingIntent that was used to request activity

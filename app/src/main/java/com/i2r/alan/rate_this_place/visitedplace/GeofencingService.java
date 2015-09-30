@@ -133,7 +133,7 @@ public class GeofencingService extends Service implements
      * the user's location.
      */
     public void populateGeofenceList() {
-        for (Map.Entry<String, LatLng> entry : Constants.BAY_AREA_LANDMARKS.entrySet()) {
+        for (Map.Entry<String, LatLng> entry : Constants.AREA_LANDMARKS.entrySet()) {
             Log.i(GeoTAG, "populate");
             mGeofenceList.add(new Geofence.Builder()
                     // Set the request ID of the geofence. This is a string to identify this
