@@ -94,9 +94,7 @@ public class RateThisPlaceActivity  extends TabActivity implements TabHost.OnTab
     @Override
     protected void onResume() {
         super.onResume();
-        new AsyncTaskGetDataToMyRewardBar(this, (ProgressBar) findViewById(R.id.progressBar_rewards), (TextView) findViewById(R.id.textView_Rewards), (ImageView)findViewById(R.id.imageView_rewards1),
-                (ImageView)findViewById(R.id.imageView_rewards2),(ImageView)findViewById(R.id.imageView_rewards3),
-                (ImageView)findViewById(R.id.imageView_rewards4),(ProgressBar)findViewById(R.id.progressBar_rewards),(TextView)findViewById(R.id.textView_Rewards)).execute();
+
     }
 
 
@@ -153,6 +151,17 @@ public class RateThisPlaceActivity  extends TabActivity implements TabHost.OnTab
     public void onLocationChanged(Location location) {
         globalvariable.thelocation=location;
         Log.i("ratelocation", "getlocation" + globalvariable.thelocation.getLatitude() + " " + globalvariable.thelocation.getLongitude());
+        ((TextView)findViewById(R.id.textView_promote)).setText(" The current location is successfully obtained by " + location.getProvider() );
+        ((ProgressBar)findViewById(R.id.progressBar_promote)).setVisibility(View.GONE);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        new AsyncTaskGetDataToMyRewardBar(this,(ProgressBar)findViewById(R.id.progressBar_promote),(TextView)findViewById(R.id.textView_promote),
+                (ImageView)findViewById(R.id.imageView_rewards1),
+                (ImageView)findViewById(R.id.imageView_rewards2),(ImageView)findViewById(R.id.imageView_rewards3),
+                (ImageView)findViewById(R.id.imageView_rewards4),(ProgressBar)findViewById(R.id.progressBar_rewards),(TextView)findViewById(R.id.textView_Rewards)).execute();
     }
 
     @Override

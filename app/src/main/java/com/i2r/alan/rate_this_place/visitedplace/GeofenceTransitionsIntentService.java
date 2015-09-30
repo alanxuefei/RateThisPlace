@@ -19,14 +19,16 @@ package com.i2r.alan.rate_this_place.visitedplace;
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -102,6 +104,8 @@ public class GeofenceTransitionsIntentService extends IntentService {
                     triggeringGeofences
             );
 
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+           // String syncConnPref = sharedPref.getString(UserProfileActivity.notifications_new_message, "");
             // Send notification and log the transition details.
             sendNotification(geofenceTransitionDetails);
 

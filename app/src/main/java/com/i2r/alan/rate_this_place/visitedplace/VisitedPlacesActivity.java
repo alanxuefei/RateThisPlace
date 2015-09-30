@@ -156,7 +156,7 @@ public class VisitedPlacesActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void clickthelistview(AdapterView<?> a, View v, int position, long id) {
+   /* public void clickthelistview(AdapterView<?> a, View v, int position, long id) {
 
        String value = (String)a.getItemAtPosition(position);
         Log.i(HumanActivityTAG, value);
@@ -165,7 +165,7 @@ public class VisitedPlacesActivity extends AppCompatActivity {
         startActivity(startRatingIntent);
 
 
-    }
+    }*/
 
     public void ReturnButton(View v) {
         Log.i("test", "return");
@@ -173,7 +173,7 @@ public class VisitedPlacesActivity extends AppCompatActivity {
     }
 
 
-    public void readDB(List<String> VisitedPlaceList) {
+  /*  public void readDB(List<String> VisitedPlaceList) {
 
         DBHelper mDbHelper = new DBHelper(this);
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -223,7 +223,7 @@ public class VisitedPlacesActivity extends AppCompatActivity {
     }
 
 
-
+*/
     public void buildTableRow0() {
 
         if  (!((this.getSharedPreferences("VisitedPlaceStatus", this.MODE_PRIVATE).getString(Constants.Locations[0] + "DateTime", "NA")).equals("NA"))){
