@@ -186,7 +186,8 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             {
                 ((TextView)findViewById(R.id.textView8)).setText("");
                 Log.i(GPS_Internet_Check_TAG, "internet Yes");
-                new AsyncTaskGetDataToMyRewardBar(this, (ProgressBar) findViewById(R.id.progressBar_rewards), (TextView) findViewById(R.id.textView_Rewards), (ImageView)findViewById(R.id.imageView_rewards1),
+                new AsyncTaskGetDataToMyRewardBar(this,(ProgressBar)findViewById(R.id.progressBar_promote),(TextView)findViewById(R.id.textView_promote),
+                        (ImageView)findViewById(R.id.imageView_rewards1),
                         (ImageView)findViewById(R.id.imageView_rewards2),(ImageView)findViewById(R.id.imageView_rewards3),
                         (ImageView)findViewById(R.id.imageView_rewards4),(ProgressBar)findViewById(R.id.progressBar_rewards),(TextView)findViewById(R.id.textView_Rewards)).execute();
             }

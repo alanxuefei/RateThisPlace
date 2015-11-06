@@ -221,52 +221,7 @@ public class AsyncTaskGetDataToMyRewardBar extends AsyncTask {
 
     }
 
-    public void addcup() {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        int pixels = (int) (30 * scale + 0.5f);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(pixels , pixels );
-        pixels = (int) (5 * scale + 0.5f);
-        params.setMargins(pixels/2, pixels, 0, pixels);
-        ImageView mRewardCup = new ImageView(context);
-        mRewardCup.setLayoutParams(params);
-        mRewardCup.setImageResource(R.drawable.rewards_cup);
-        mRewardCup.setScaleType(ImageView.ScaleType.FIT_XY);
-        mLinearLayoutrewardbar.addView(mRewardCup);
 
-    }
-
-    public void addunactivecup() {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        int pixels = (int) (30 * scale + 0.5f);
-
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(pixels , pixels );
-        pixels = (int) (5 * scale + 0.5f);
-
-        params.setMargins(pixels/2, pixels, 0, pixels);
-        ImageView mRewardCup = new ImageView(context);
-        mRewardCup.setLayoutParams(params);
-        mRewardCup.setImageResource(R.drawable.rewards_cup_unactive);
-        mRewardCup.setScaleType(ImageView.ScaleType.FIT_XY);
-        mLinearLayoutrewardbar.addView(mRewardCup);
-
-    }
-
-    public void addcircle(int progress) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        int pixels = (int) (30 * scale + 0.5f);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(pixels , pixels );
-        pixels = (int) (5 * scale + 0.5f);
-        params.setMargins(pixels, pixels, pixels, pixels);
-        ProgressBar mRewardCup = new ProgressBar(context, null,  R.style.Widget_AppCompat_ProgressBar_Horizontal);
-
-        mRewardCup.setIndeterminate(false);
-
-
-
-        mRewardCup.setProgress(progress * 10);
-        mLinearLayoutrewardbar.addView(mRewardCup);
-
-    }
 
 
 

@@ -24,6 +24,34 @@
         <item>0</item>
         <item>1</item>
         <item>2</item>
+    </string-array>
+    <string-array name="pref_example_list_age">
+        <item>NA</item>
+        <item>20-24</item>
+        <item>25-29</item>
+        <item>30-34</item>
+        <item>35-39</item>
+        <item>40-44</item>
+        <item>44-49</item>
+        <item>50-54</item>
+        <item>55-59</item>
+        <item>60-64</item>
+        <item>65-70</item>
+        <item>70+</item>
+
+    </string-array>
+    <string-array name="pref_example_list_age_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
 
     </string-array>
 
